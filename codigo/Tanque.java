@@ -10,15 +10,26 @@ public class Tanque {
 	private double capacidadeAtual;
 
 	public double abastecer(double litros) {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+		if (capacidadeAtual + litros <= capacidadeMaxima) {
+			System.out.println("Carro abastecido.");
+			double totalAbastecido = capacidadeAtual + litros;
+			return totalAbastecido;
+		} else {
+			System.out.println("Carro não pode ser abastecido com essa quantidade de litros.");
+			return capacidadeAtual;
+		}
 	}
 
 	public double autonomiaMaxima() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+		double autonomiaMaxima=capacidadeMaxima/CONSUMO;
+		System.out.println("Aautonomia máxima do carro é de: " + autonomiaMaxima);
+		return autonomiaMaxima;
 	}
 
 	public double autonomiaAtual() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+		double autonomiaAtual=capacidadeAtual/CONSUMO;
+		System.out.println("Aautonomia máxima do carro é de: " + autonomiaAtual);
+		return autonomiaAtual;
 	}
 
 }
