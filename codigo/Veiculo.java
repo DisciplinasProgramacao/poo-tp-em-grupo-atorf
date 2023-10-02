@@ -31,7 +31,7 @@ public class Veiculo {
 		this.quantRotas = quantRotas;
 		this.tanque = tanque;
 		this.totalReabastecido = totalReabastecido;
-		this.rotas = rotas;
+		this.rotas = new Rota[quantRotas];
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Veiculo {
 	 * @return A autonomia máxima.
 	 */
 
-	public double autonomiaMaxima() {
+	private double autonomiaMaxima() {
 		return tanque.autonomiaMaxima() * CONSUMO;
 	}
 
@@ -78,7 +78,7 @@ public class Veiculo {
 	 * 
 	 * @return A autonomia atual.
 	 */
-	public double autonomiaAtual() {
+	private double autonomiaAtual() {
 		return tanque.autonomiaAtual() * CONSUMO;
 	}
 
@@ -134,7 +134,7 @@ public class Veiculo {
 		if (quantRotas == 0) {
 			return 0;
 		} else {
-			return kmTotal() /quantRotas;
+			return kmTotal() / quantRotas;
 		}
 	}
 
@@ -145,7 +145,7 @@ public class Veiculo {
 	 * @param rota
 	 * @throws Exception Se o limite de rotas for atingido.
 	 */
-	public void percorrerRota(Rota rota) throws Exception {
+	private void percorrerRota(Rota rota) throws Exception {
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
