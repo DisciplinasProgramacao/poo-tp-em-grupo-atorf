@@ -70,7 +70,7 @@ public class Veiculo {
 	 */
 
 	private double autonomiaMaxima() {
-		return tanque.autonomiaMaxima() * CONSUMO;
+		return tanque.autonomiaMaxima();
 	}
 
 	/**
@@ -79,19 +79,28 @@ public class Veiculo {
 	 * @return A autonomia atual.
 	 */
 	private double autonomiaAtual() {
-		return tanque.autonomiaAtual() * CONSUMO;
+		return tanque.autonomiaAtual();
 	}
 
 	/**
-	 * Com esse metódo iremos passar a quantidade
+	 * Esse método bastece o veículo com a quantidade de litros especificada.
+	 * Ele verifica se a quantidade a ser abastecida ultrapassa a capacidade total
+	 * do tanque, nesse caso, o veículo será abastecido até sua capacidade máxima.
 	 * 
 	 * @param litros
 	 * @return A quantidade do tanque abastecido
 	 */
 	public double abastecer(double litros) {
-		double abastecendoTanque = tanque.abastecer(litros);
-		totalReabastecido += abastecendoTanque;
-		return totalReabastecido;
+		if (litros < tanque.getcapacidadeMaxima() - tanque.getcapacidadeAtual()) {
+			double abastecendoTanque = tanque.abastecer(litros);
+			totalReabastecido += abastecendoTanque;
+			return totalReabastecido;
+		} else {
+			double tanqueCheio = tanque.getcapacidadeMaxima() - tanque.getcapacidadeAtual();
+			double totalAbastecido = tanque.abastecer(tanqueCheio);
+			totalReabastecido += totalAbastecido;
+			return totalReabastecido;
+		}
 	}
 
 	/**
