@@ -65,7 +65,16 @@ public class App {
                     return opcao;
                     break;
                 case 7:
-                    // falta  a funcionalidade de abastecer um veículo
+                    System.out.print("Digite a placa do veículo: ");
+                    String placaVeiculo = scanner.next();
+                    Veiculo veiculoParaAbastecer = frota.localizarVeiculo(placaVeiculo);
+                    if (veiculoParaAbastecer != null) {
+                        System.out.print("Digite a quantidade de litros a abastecer: ");
+                        double litrosAbastecimento = scanner.nextDouble();
+                        veiculoParaAbastecer.abastecer(litrosAbastecimento);
+                    } else {
+                        System.out.println("Veículo não encontrado. ＞﹏＜");
+                    }
                     return opcao;
                     break;
                 case 0:
