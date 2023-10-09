@@ -117,8 +117,8 @@ public class App {
 
 
     /**
-	 * A função menuText mostra pelo terminal as opições possiveis á serem feitas no Systema.
-	 */
+    * A função menuText mostra pelo terminal as opições possiveis á serem feitas no Systema.
+    */
     private static void menuText() {
         System.out.println("0-Sair");
         System.out.println("1-Exibir relatório da frota");
