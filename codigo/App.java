@@ -74,7 +74,7 @@ public class App {
                     break;
                 default:
                     return opcao;
-                    System.out.println("-Opção inválida- ＞﹏＜");
+                    System.out.println("Opção inválida- ＞﹏＜");
             }
         return -1    
     }
