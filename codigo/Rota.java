@@ -1,15 +1,28 @@
 package codigo;
 
-import java.io.*;
-import java.util.*;
-
 public class Rota {
 
-	private double quilometragem;
-	private Data data;
+    private double quilometragem;
+    private Data data;
 
-	public String relatorio() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
-	}
+    public Rota(double quilometragem, Data data) {
+        this.quilometragem = quilometragem;
+        this.data = data;
+    }
 
+    public double getQuilometragem() {
+        return quilometragem;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public String relatorio() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Data da Rota: ").append(data.dataFormatada());
+        sb.append("\nQuilometragem: ").append(quilometragem).append(" km");
+
+        return sb.toString();
+    }
 }
