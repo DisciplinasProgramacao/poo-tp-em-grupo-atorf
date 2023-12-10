@@ -9,6 +9,18 @@ public class Tanque {
 	private double capacidadeMaxima;
 	private double capacidadeAtual;
 
+	public static double getCONSUMO() {
+		return CONSUMO;
+	}
+
+	public double getCapacidadeMaxima() {
+		return capacidadeMaxima;
+	}
+
+	public double getCapacidadeAtual() {
+		return capacidadeAtual;
+	}
+
 	public double abastecer(double litros) {
 		if (capacidadeAtual + litros <= capacidadeMaxima) {
 			System.out.println("Carro abastecido.");

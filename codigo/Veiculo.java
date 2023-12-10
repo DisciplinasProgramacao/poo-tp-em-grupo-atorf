@@ -91,12 +91,12 @@ public class Veiculo {
 	 * @return A quantidade do tanque abastecido
 	 */
 	public double abastecer(double litros) {
-		if (litros < tanque.getcapacidadeMaxima() - tanque.getcapacidadeAtual()) {
+		if (litros < tanque.getCapacidadeMaxima() - tanque.getCapacidadeAtual()) {
 			double abastecendoTanque = tanque.abastecer(litros);
 			totalReabastecido += abastecendoTanque;
 			return totalReabastecido;
 		} else {
-			double tanqueCheio = tanque.getcapacidadeMaxima() - tanque.getcapacidadeAtual();
+			double tanqueCheio = tanque.getCapacidadeMaxima() - tanque.getCapacidadeAtual();
 			double totalAbastecido = tanque.abastecer(tanqueCheio);
 			totalReabastecido += totalAbastecido;
 			return totalReabastecido;
@@ -129,7 +129,7 @@ public class Veiculo {
 	public double kmTotal() {
 		double totalKmVeiculo = 0;
 		for (Rota rota : rotas) {
-			totalKmVeiculo += rotas.getQuilometragem();
+			totalKmVeiculo += rotas.length;
 		}
 		return totalKmVeiculo;
 	}
