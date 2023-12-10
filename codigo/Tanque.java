@@ -34,22 +34,14 @@ public class Tanque {
 
 	public double autonomiaMaxima() {
 		double autonomiaMaxima=capacidadeMaxima/CONSUMO;
-		System.out.println("A autonomia máxima do carro é de: " + autonomiaMaxima);
+		System.out.println("Aautonomia máxima do carro é de: " + autonomiaMaxima);
 		return autonomiaMaxima;
 	}
 
 	public double autonomiaAtual() {
 		double autonomiaAtual=capacidadeAtual/CONSUMO;
-		System.out.println("A autonomia máxima do carro é de: " + autonomiaAtual);
+		System.out.println("Aautonomia máxima do carro é de: " + autonomiaAtual);
 		return autonomiaAtual;
 	}
-
-	public int getcapacidadeMaxima() {
-		return 0;
-	}
-
-    public int getcapacidadeAtual() {
-        return 0;
-    }
 
 }
