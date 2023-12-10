@@ -18,15 +18,9 @@ public class Veiculo {
 
 	/**
 	 * Construtor da classe Veiculo
-	 * 
-	 * @param placa
-	 * @param quantRotas
-	 * @param tanque
-	 * @param totalReabastecido
-	 * @param rotas
 	 */
 
-	public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido, Rota[] rotas) {
+	public Veiculo() {
 		this.placa = placa;
 		this.quantRotas = quantRotas;
 		this.tanque = tanque;

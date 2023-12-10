@@ -23,6 +23,7 @@ public class App {
             case 1:
                 System.out.println(frota.relatorio());
                 break;
+
             case 2:
                 System.out.println("Digite a placa: ");
                 String placa = scanner.next();
@@ -33,9 +34,9 @@ public class App {
                     System.out.println("Não encontrado. ＞﹏＜");
                 }
                 break;
+
             case 3:
-                // Substitua 'new Veiculo()' pelo construtor correto de Veiculo
-                Veiculo veiculo = new Veiculo(/* parâmetros do construtor */);
+                Veiculo veiculo = new Veiculo();
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
                 System.out.println("Escreva a Data:");
@@ -46,9 +47,11 @@ public class App {
                 Rota rota = new Rota(quilometragem, dataRota);
                 veiculo.addRota(rota);
                 break;
+
             case 4:
                 System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km.");
                 break;
+
             case 5:
                 Veiculo veiculoMaiorKmTotal = frota.maiorKmTotal();
                 if (veiculoMaiorKmTotal != null) {
@@ -58,6 +61,7 @@ public class App {
                     System.out.println("Nenhum veículo na frota. ＞﹏＜");
                 }
                 break;
+
             case 6:
                 Veiculo veiculoMaiorKmMedia = frota.maiorKmMedia();
                 if (veiculoMaiorKmMedia != null) {
@@ -67,6 +71,7 @@ public class App {
                     System.out.println("Nenhum veículo na frota. ＞﹏＜");
                 }
                 break;
+
             case 7:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
@@ -79,9 +84,11 @@ public class App {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
                 break;
+
             case 0:
                 System.out.println("Saindo...");
                 break;
+                
             default:
                 System.out.println("Opção inválida- ＞﹏＜");
                 break;
