@@ -157,4 +157,8 @@ public class Veiculo {
 		}
 	}
 
+	public double calculaDespesas(Combustivel tipoComb, Manutencao tipoManu) {
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
 }
