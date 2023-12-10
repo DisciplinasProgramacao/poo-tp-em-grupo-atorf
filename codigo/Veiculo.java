@@ -129,7 +129,7 @@ public class Veiculo {
 	public double kmTotal() {
 		double totalKmVeiculo = 0;
 		for (Rota rota : rotas) {
-			totalKmVeiculo += rotas.length;
+			totalKmVeiculo += rota.getQuilometragem();
 		}
 		return totalKmVeiculo;
 	}
