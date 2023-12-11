@@ -1,5 +1,7 @@
 package codigo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class App {
@@ -7,17 +9,20 @@ public class App {
     static Frota frota = new Frota(20);
 
     public static void main(String[] args) {
+        String arqNome = "menuAtorf";
         int opcao;
         do {
-            opcao = menu();
+            opcao = menu(arqNome); 
         } while (opcao != 0 && opcao != -1);
         scanner.close();
     }
 
-    public static int menu() {
-        menuText();
+    public static int menu(String nomeArquivo) {
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
         System.out.print("Escolha uma opção: ");
         int opcao = scanner.nextInt();
+        scanner.nextLine(); 
 
         switch (opcao) {
             case 1:
@@ -97,14 +102,19 @@ public class App {
         return opcao;
     }
 
-    private static void menuText() {
-        System.out.println("0-Sair");
-        System.out.println("1-Exibir relatório da frota");
-        System.out.println("2-Localizar veículo por placa");
-        System.out.println("3-Adicionar rota");
-        System.out.println("4-Quilometragem total da frota");
-        System.out.println("5-Veículo com maior quilometragem total");
-        System.out.println("6-Veículo com maior quilometragem média");
-        System.out.println("7-Abastecer");
+    public static void lerMenu(String nomeArquivo) {
+        try {
+            File arquivo = new File(nomeArquivo);
+            Scanner scannerArquivo = new Scanner(arquivo, "UTF-8");
+
+            while (scannerArquivo.hasNextLine()) {
+                String linha = scannerArquivo.nextLine();
+                System.out.println(linha);
+            }
+
+            scannerArquivo.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado: " + e.getMessage());
+        }
     }
 }

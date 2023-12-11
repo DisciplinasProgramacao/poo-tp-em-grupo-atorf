@@ -157,8 +157,23 @@ public class Veiculo {
 		}
 	}
 
-	public double calculaDespesas(Combustivel tipoComb, Manutencao tipoManu) {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+	/**
+	 * Esse metódo será utilizado para calcular as despesas totais do veículo,
+	 * considerando o seu tipo de combustivel, qual manutenção ele irá realizar e
+	 * sua quilometragem.
+	 * 
+	 * @param tipoCombustivel
+	 * @param tipoManutencao
+	 * @param kmAtual
+	 * @return O valor das despesas totais contando o custo do combustivel e da
+	 *         manutenção
+	 */
+
+	public double calculaDespesas(Combustivel tipoCombustivel, Manutencao tipoManutencao, double kmAtual) {
+		double custoCombustivel = tipoCombustivel.getPrecoLitro();
+		double custoManutencao = tipoManutencao.calcularCusto(kmAtual);
+
+		return custoCombustivel + custoManutencao;
 	}
 
 }
