@@ -8,11 +8,20 @@ public class App {
     static Scanner scanner = new Scanner(System.in);
     static Frota frota = new Frota(20);
 
+    /**
+     * "Limpa" a tela (códigos de terminal VT-100)
+     */
+    public static void limparTela() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public static void main(String[] args) {
+        limparTela();
         String arqNome = "menuAtorf";
         int opcao;
         do {
-            opcao = menu(arqNome); 
+            opcao = menu(arqNome);
         } while (opcao != 0 && opcao != -1);
         scanner.close();
     }
@@ -22,7 +31,7 @@ public class App {
         System.out.println("==========================");
         System.out.print("Escolha uma opção: ");
         int opcao = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
         switch (opcao) {
             case 1:
@@ -32,7 +41,7 @@ public class App {
             case 2:
                 System.out.println("Digite a placa: ");
                 String placa = scanner.next();
-                Veiculo veiculoEncontrado = frota.localizarVeiculo(placa);
+                String veiculoEncontrado = frota.localizarVeiculo(placa);
                 if (veiculoEncontrado != null) {
                     System.out.println("Veículo encontrado:\n" + veiculoEncontrado.toString());
                 } else {
@@ -41,7 +50,9 @@ public class App {
                 break;
 
             case 3:
-                Veiculo veiculo = new Veiculo();
+            System.out.println("Digite a placa do veiculo: ");
+            String placaVeiculoRota = scanner.nextLine();
+                Veiculo veiculo = new Veiculo(placaVeiculoRota, opcao, null, opcao);
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
                 System.out.println("Escreva a Data:");
@@ -80,8 +91,9 @@ public class App {
             case 7:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
-                Veiculo veiculoParaAbastecer = frota.localizarVeiculo(placaVeiculo);
-                if (veiculoParaAbastecer != null) {
+                String procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
+                Veiculo veiculoParaAbastecer = new Veiculo(placaVeiculo, 0, null, 0);
+                if (procurarVeiculo != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
                     double litrosAbastecimento = scanner.nextDouble();
                     veiculoParaAbastecer.abastecer(litrosAbastecimento);
@@ -90,16 +102,288 @@ public class App {
                 }
                 break;
 
+            case 8:
+                String nomeArqM = "menuTipoVeiculo";
+                menuManutencao(nomeArqM);
+                break;
+
+            case 9:
+                String nomeArqCombustivel = "menuCombustivel";
+                Combustivel tipoCombustivel = menuCombustivel(nomeArqCombustivel);
+                if (tipoCombustivel == null) {
+                    System.out.println("Tipo de combustível inválido");
+                    break;
+                }
+
+                String nomeArqManutencao = "menuTipoVeiculo";
+                Manutencao tipoManutencao = menuManutencao(nomeArqManutencao);
+                if (tipoManutencao == null) {
+                    System.out.println("Tipo de manutenção inválido");
+                    break;
+                }
+
+                System.out.println("Informe a placa do veículo: ");
+                String placaVeiculoCalc = scanner.next();
+                String procurarVeiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
+                Veiculo veiculoCalc = new Veiculo(placaVeiculoCalc, 0, null, 0);
+                if (procurarVeiculoCalc != null) {
+                    System.out.println("Informe a quilometragem atual do veículo: ");
+                    double kmAtual = scanner.nextDouble();
+
+                    double despesas = veiculoCalc.calculaDespesas(tipoCombustivel, tipoManutencao, kmAtual);
+                    System.out.println("O custo total das despesas é: " + despesas);
+                } else {
+                    System.out.println("Veículo não encontrado. ＞﹏＜");
+                }
+                break;
+
+                case 10:
+                System.out.println("Placa: ");
+                String placaNova = scanner.nextLine();
+                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0);
+                frota.adicionarVeiculo(novoVeiculo);
+                System.out.println("Veiculo adicionado com sucesso.");
+                break;
+
             case 0:
                 System.out.println("Saindo...");
                 break;
-                
+
             default:
                 System.out.println("Opção inválida- ＞﹏＜");
                 break;
         }
 
         return opcao;
+    }
+
+    public static void menuTiposVeiculos(String nomeArquivo) {
+        limparTela();
+        lerMenu(nomeArquivo);
+
+        String nomeArq = "menuCombustivel";
+        System.out.println("==========================");
+        System.out.print("Escolha um tipo de veículo: ");
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcao) {
+            case 1:
+                System.out.println("Tipo selecionado: Caminhão");
+
+                break;
+
+            case 2:
+                System.out.println("Tipo selecionado: Carro");
+
+                break;
+
+            case 3:
+                System.out.println("Tipo selecionado: Furgão");
+
+                break;
+
+            case 4:
+                System.out.println("Tipo selecionado: Van");
+
+                break;
+
+            default:
+                System.out.println("Opção inválida");
+                break;
+        }
+    }
+
+    public static Combustivel menuCombustivel(String nomeArquivo) {
+        limparTela();
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha um tipo de combustível: ");
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcao) {
+            case 1:
+                return Combustivel.ALCOOL;
+
+            case 2:
+                return Combustivel.DIESEL;
+
+            case 3:
+                return Combustivel.GASOLINA;
+
+            default:
+                System.out.println("Opção inválida.");
+                return null;
+        }
+    }
+
+    public static Manutencao menuManutencao(String nomeArquivo) {
+        limparTela();
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha um tipo de veículo: ");
+        int opcaoVeiculo = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoVeiculo) {
+            case 1:
+                menuManutencaoCaminhao();
+                break;
+
+            case 2:
+                menuManutencaoCarro();
+                break;
+
+            case 3:
+                menuManutencaoFurgao();
+                break;
+
+            case 4:
+                menuManutencaoVan();
+                break;
+
+            default:
+                System.out.println("Opção inválida");
+                break;
+        }
+        return null;
+    }
+
+    public static void menuManutencaoCaminhao() {
+        limparTela();
+        String nomeArquivo = "menuManutencao";
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha o tipo de manutenção para caminhão: ");
+        int opcaoManutencao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoManutencao) {
+            case 1:
+                System.out.println("Informe a KM atual: ");
+                double kmAtual = scanner.nextDouble();
+
+                MCaminhao mPeriodicaCaminhao = new MCaminhao();
+                mPeriodicaCaminhao.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Manutenção realizada com sucesso!");
+                break;
+
+            case 2:
+                System.out.println("Informe a KM atual: ");
+                kmAtual = scanner.nextDouble();
+
+                MCaminhao mTrocaPneuCaminhao = new MCaminhao();
+                mTrocaPneuCaminhao.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Troca realizada com sucesso!");
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
+
+    public static void menuManutencaoCarro() {
+        limparTela();
+        String nomeArquivo = "menuManutencao";
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha o tipo de manutenção para o carro: ");
+        int opcaoManutencao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoManutencao) {
+            case 1:
+                System.out.println("Informe a KM atual: ");
+                double kmAtual = scanner.nextDouble();
+
+                MCarro mPeriodicaCarro = new MCarro();
+                mPeriodicaCarro.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Manutenção realizada com sucesso!");
+                break;
+
+            case 2:
+                System.out.println("Informe a KM atual: ");
+                kmAtual = scanner.nextDouble();
+
+                MCarro mTrocaPneuCarro = new MCarro();
+                mTrocaPneuCarro.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Troca realizada com sucesso!");
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
+
+    public static void menuManutencaoFurgao() {
+        limparTela();
+        String nomeArquivo = "menuManutencao";
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha o tipo de manutenção para o furgão: ");
+        int opcaoManutencao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoManutencao) {
+            case 1:
+                System.out.println("Informe a KM atual: ");
+                double kmAtual = scanner.nextDouble();
+
+                MFurgao mPeriodicaFurgao = new MFurgao();
+                mPeriodicaFurgao.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Manutenção realizada com sucesso!");
+                break;
+
+            case 2:
+                System.out.println("Informe a KM atual: ");
+                kmAtual = scanner.nextDouble();
+
+                MFurgao mTrocaPneuFurgao = new MFurgao();
+                mTrocaPneuFurgao.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Troca realizada com sucesso!");
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
+
+    public static void menuManutencaoVan() {
+        limparTela();
+        String nomeArquivo = "menuManutencao";
+        lerMenu(nomeArquivo);
+        System.out.println("==========================");
+        System.out.print("Escolha o tipo de manutenção para a van: ");
+        int opcaoManutencao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoManutencao) {
+            case 1:
+                System.out.println("Informe a KM atual: ");
+                double kmAtual = scanner.nextDouble();
+
+                MVan mPeriodicaVan = new MVan();
+                mPeriodicaVan.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Manutenção realizada com sucesso!");
+                break;
+
+            case 2:
+                System.out.println("Informe a KM atual: ");
+                kmAtual = scanner.nextDouble();
+
+                MVan mTrocaPneuVan = new MVan();
+                mTrocaPneuVan.registrarManutencaoPeriodica(kmAtual);
+                System.out.println("Troca realizada com sucesso!");
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
     }
 
     public static void lerMenu(String nomeArquivo) {
