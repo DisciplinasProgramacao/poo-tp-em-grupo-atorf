@@ -281,7 +281,7 @@ public class Veiculo {
 	 */
 	@Override
 	public String toString() {
-		return "Veiculo{" + getTipoVeiculo() + " portador da placa" +
+		return getTipoVeiculo() + " portador da placa" +
 				"'" + placa + '\'' +
 				", tendo " + getQuilometragem() + " km " +
 				'}';
