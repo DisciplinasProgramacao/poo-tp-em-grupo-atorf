@@ -274,57 +274,43 @@ public class App {
                 }
                 break;
 
+            // ... dentro do switch-case da classe App ...
+
             case 9:
-                System.out.println("Digite a placa do veículo para manutenção: ");
-                String placaManutencao = scanner.next();
-                Veiculo veiculoParaManutencao = frota.localizarVeiculo(placaManutencao);
-
-                if (veiculoParaManutencao != null) {
-                    System.out.println("Informe a quilometragem atual do veículo: ");
-                    double kmAtual = scanner.nextDouble();
-
-                    // Verificar se a manutenção é necessária
-                    boolean necessitaManutencao = veiculoParaManutencao.getManutencao()
-                            .precisaManutencaoPeriodica(kmAtual);
-                    if (necessitaManutencao) {
-                        // Registrar a manutenção
-                        veiculoParaManutencao.getManutencao().registrarManutencaoPeriodica(kmAtual);
-
-                        // Calcular o custo da manutenção
-                        double custoManutencao = veiculoParaManutencao.getManutencao().calcularCusto(kmAtual);
-                        System.out.println("Manutenção realizada. Custo total: " + custoManutencao);
-                    } else {
-                        System.out.println("Manutenção não é necessária no momento.");
-                    }
-                } else {
-                    System.out.println("Veículo não encontrado na frota");
-                }
-                break;
-
-                case 10:
                 System.out.println("Digite a placa do veículo:");
                 String placa2 = scanner.nextLine();
                 Veiculo veiculo = frota.localizarVeiculo(placa2);
                 if (veiculo != null) {
-                    double despesaTotal = veiculo.calcularDespesaTotal();
+                    System.out.println(veiculo.getManutencao().informarManutencao());
+                } else {
+                    System.out.println("Veículo não encontrado.");
+                }
+                break;
+
+            case 10:
+                System.out.println("Digite a placa do veículo:");
+                String placa3 = scanner.nextLine();
+                Veiculo veiculo2 = frota.localizarVeiculo(placa3);
+                if (veiculo2 != null) {
+                    double despesaTotal = veiculo2.calcularDespesaTotal();
                     System.out.println("Despesa total do veículo: " + despesaTotal);
                 } else {
                     System.out.println("Veículo não encontrado.");
                 }
                 break;
-            
+
             case 11:
                 System.out.println("Informe a placa do veículo: ");
-                String placaVeiculoAchar = scanner.next();  // Renomeando a variável
-                Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar);  // Renomeando a variável
+                String placaVeiculoAchar = scanner.next(); // Renomeando a variável
+                Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar); // Renomeando a variável
                 if (veiculoEncontrado2 != null) {
                     double quilometragemTotal = veiculoEncontrado2.kmTotal();
-                    System.out.println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
+                    System.out
+                            .println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
                 } else {
                     System.out.println("Veículo não encontrado.");
                 }
                 break;
-            
 
             case 0:
                 System.out.println("Saindo...");

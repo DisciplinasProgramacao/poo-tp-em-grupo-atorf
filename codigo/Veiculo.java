@@ -232,6 +232,17 @@ public class Veiculo {
 
 	public void atualizarQuilometragem(double quilometragemRota) {
 		this.quilometragem += quilometragemRota;
+		verificarManutencao(); // Verifica se alguma manutenção é necessária
+	}
+	
+
+	public void verificarManutencao() {
+		if (manutencao.precisaManutencaoPeriodica(quilometragem)) {
+			manutencao.registrarManutencaoPeriodica(quilometragem);
+		}
+		if (manutencao.precisaTrocaPneus(quilometragem)) {
+			manutencao.registrarTrocaPneus(quilometragem);
+		}
 	}
 	
 	@Override

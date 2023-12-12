@@ -9,4 +9,6 @@ public interface Manutencao {
     double calcularCusto(double kmAtual);
     void registrarManutencaoPeriodica(double kmAtual);
     void registrarTrocaPneus(double kmAtual);
+    String informarManutencao();
+
 }

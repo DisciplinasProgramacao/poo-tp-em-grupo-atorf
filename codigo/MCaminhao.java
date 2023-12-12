@@ -48,4 +48,12 @@ public class MCaminhao implements Manutencao {
         return custoTotal;
     }
 
+    public String informarManutencao() {
+        StringBuilder info = new StringBuilder();
+        info.append("Última manutenção periódica: ").append(kmUltimaManutencaoPeriodica).append(" km\n");
+        info.append("Próxima manutenção periódica: ").append(kmUltimaManutencaoPeriodica + KM_MANUTENCAO_PERIODICA).append(" km\n");
+        info.append("Última troca de pneus: ").append(kmUltimaTrocaPneus).append(" km\n");
+        info.append("Próxima troca de pneus: ").append(kmUltimaTrocaPneus + KM_TROCA_PNEUS).append(" km\n");
+        return info.toString();
+    }
 }
