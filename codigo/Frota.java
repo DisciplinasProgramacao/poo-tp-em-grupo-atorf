@@ -59,7 +59,7 @@ public class Frota {
     public double quilometragemTotal() {
         double totalKm = 0;
         for (Veiculo veiculo : veiculos) {
-            totalKm += veiculo.kmTotal();
+            totalKm += veiculo.getQuilometragem();
         }
         return totalKm;
     }
@@ -72,7 +72,7 @@ public class Frota {
     public Veiculo maiorKmTotal() {
         Veiculo maior = null;
         for (Veiculo veiculo : veiculos) {
-            if (maior == null || veiculo.kmTotal() > maior.kmTotal()) {
+            if (maior == null || veiculo.getQuilometragem() > maior.getQuilometragem()) {
                 maior = veiculo;
             }
         }
@@ -90,7 +90,7 @@ public class Frota {
 
         for (Veiculo veiculo : veiculos) {
             if (veiculo != null) {
-                double kmMediaAtual = veiculo.kmMedia(); // Assumindo que kmMedia() será implementada na Classe Veiculo
+                double kmMediaAtual = veiculo.getQuilometragem(); // Assumindo que kmMedia() será implementada na Classe Veiculo
 
                 if (maiorMedia == null || kmMediaAtual > maiorKmMedia) {
                     maiorMedia = veiculo;
