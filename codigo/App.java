@@ -43,46 +43,46 @@ public class App {
         try {
             File arquivo = new File(nomeArquivo);
             Scanner scannerArquivo = new Scanner(arquivo);
-    
+
             while (scannerArquivo.hasNextLine()) {
                 String linha = scannerArquivo.nextLine();
                 String[] dados = linha.split("-");
-    
-                String placa = dados[0];
-                int quantRotas = Integer.parseInt(dados[1]);
-                double capacidadeTanque = Double.parseDouble(dados[2]);
-                double totalReabastecido = Double.parseDouble(dados[3]);
-                double quilometragem = Double.parseDouble(dados[4]); // Novo campo de quilometragem
-    
+
+                String tipoVeiculoStr = dados[0];
+                String placa = dados[1];
+                int quantRotas = Integer.parseInt(dados[2]);
+                double capacidadeTanque = Double.parseDouble(dados[3]);
+                double totalReabastecido = Double.parseDouble(dados[4]);
+                double quilometragem = Double.parseDouble(dados[5]);
+
                 Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
-    
-                Veiculo novoVeiculo = new Veiculo(placa, quantRotas, tq, totalReabastecido, quilometragem);
+                TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
+
+                Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tq, quantRotas, quilometragem);
                 frota.adicionarVeiculo(novoVeiculo);
             }
-    
+
             scannerArquivo.close();
-            criarRotasParaVeiculos(frota);
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
         }
-    }    
+    }
 
-       public static void criarRotasParaVeiculos(Frota frota) {
+    public static void criarRotasParaVeiculos(Frota frota) {
         for (Veiculo veiculo : frota.getVeiculos()) {
             for (int i = 0; i < 15; i++) {
                 double quilometragem = Math.random() * 100; // Gerando uma quilometragem aleatória
                 int dia = (int) (1 + Math.random() * 28); // Gerando um dia aleatório entre 1 e 28
                 int mes = (int) (1 + Math.random() * 12); // Gerando um mês aleatório entre 1 e 12
                 int ano = 2023; // Defina o ano desejado
-    
+
                 Data dataRota = new Data(dia, mes, ano);
                 Rota rota = new Rota(quilometragem, dataRota);
-    
+
                 veiculo.addRota(rota);
             }
         }
     }
-    
 
     /**
      * Exibe o menu principal e processa as opções escolhidas pelo usuário.
@@ -113,27 +113,28 @@ public class App {
                 }
                 break;
 
-                case 3:
+            case 3:
                 System.out.println("Digite a placa do veículo:");
                 String placaVeiculoRota = scanner.nextLine();
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
-                scanner.nextLine(); 
-            
+                scanner.nextLine();
+
                 System.out.println("Escreva a Data (no formato DD/MM/AAAA):");
                 String dataInput = scanner.nextLine();
                 String[] dataSplit = dataInput.split("/");
                 int dia = Integer.parseInt(dataSplit[0]);
                 int mes = Integer.parseInt(dataSplit[1]);
                 int ano = Integer.parseInt(dataSplit[2]);
-            
+
                 Data dataRota = new Data(dia, mes, ano);
-            
+
                 Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
                 if (veiculoExistente != null) {
                     Rota rota = new Rota(quilometragem, dataRota);
                     if (!veiculoExistente.addRota(rota)) {
-                        System.out.println("Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
+                        System.out.println(
+                                "Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
                     } else {
                         System.out.println("Rota adicionada com sucesso ao veículo " + placaVeiculoRota);
                     }
@@ -141,12 +142,36 @@ public class App {
                     System.out.println("Veículo não encontrado na frota.");
                 }
                 break;
-            
 
             case 4:
+                // Exemplo de implementação para a Opção 4 (Adicionar Veículo à Frota)
                 System.out.println("Placa: ");
                 String placaNova = scanner.nextLine();
-                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0,0);
+                System.out.println("Tipo de Veículo (1-Carro, 2-Caminhao, 3-Furgao, 4-Van):");
+                int tipoVeiculoEscolha = scanner.nextInt();
+                TipoVeiculo tipoVeiculo;
+
+                switch (tipoVeiculoEscolha) {
+                    case 1:
+                        tipoVeiculo = TipoVeiculo.CARRO;
+                        break;
+                    case 2:
+                        tipoVeiculo = TipoVeiculo.CAMINHAO;
+                        break;
+                    case 3:
+                        tipoVeiculo = TipoVeiculo.FURGAO;
+                        break;
+                    case 4:
+                        tipoVeiculo = TipoVeiculo.VAN;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Tipo de veículo inválido.");
+
+                }
+
+                Tanque tanqueNovo = new Tanque(tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do tanque baseada no
+                                                                                   // tipo de veículo
+                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tanqueNovo, 0, 0);
                 frota.adicionarVeiculo(novoVeiculo);
                 System.out.println("Veiculo adicionado com sucesso.");
                 break;
@@ -178,12 +203,18 @@ public class App {
             case 8:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
-                Veiculo procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
-                Veiculo veiculoParaAbastecer = new Veiculo(placaVeiculo, 0, null, 0,0);
-                if (procurarVeiculo != null) {
+                Veiculo veiculoParaAbastecer = frota.localizarVeiculo(placaVeiculo);
+                if (veiculoParaAbastecer != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
                     double litrosAbastecimento = scanner.nextDouble();
-                    veiculoParaAbastecer.abastecer(litrosAbastecimento);
+                    // Verifique se a quantidade de litros é válida (por exemplo, não excede a
+                    // capacidade do tanque)
+                    if (veiculoParaAbastecer.podeAbastecer(litrosAbastecimento)) {
+                        veiculoParaAbastecer.abastecer(litrosAbastecimento);
+                        System.out.println("Veículo abastecido com sucesso!");
+                    } else {
+                        System.out.println("Quantidade de litros inválida ou excede a capacidade do tanque.");
+                    }
                 } else {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
@@ -230,9 +261,8 @@ public class App {
 
                 System.out.println("Informe a placa do veículo: ");
                 String placaVeiculoCalc = scanner.next();
-                Veiculo procurarVeiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
-                Veiculo veiculoCalc = new Veiculo(placaVeiculoCalc, 0, null, 0,0);
-                if (procurarVeiculoCalc != null) {
+                Veiculo veiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
+                if (veiculoCalc != null) {
                     System.out.println("Informe a quilometragem atual do veículo: ");
                     double kmAtual = scanner.nextDouble();
 

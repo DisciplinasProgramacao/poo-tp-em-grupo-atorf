@@ -28,12 +28,11 @@ public class Tanque {
 
 	public double abastecer(double litros) {
 		if (capacidadeAtual + litros <= capacidadeMaxima) {
-			double totalAbastecido = capacidadeAtual + litros;
-			return totalAbastecido;
-		} else {
-			return capacidadeAtual;
+			capacidadeAtual += litros; // Atualizando a capacidade atual do tanque
 		}
+		return capacidadeAtual;
 	}
+	
 
 	public double autonomiaMaxima() {
 		double autonomiaMaxima=capacidadeMaxima/CONSUMO;
