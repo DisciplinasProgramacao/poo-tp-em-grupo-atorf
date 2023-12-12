@@ -43,25 +43,24 @@ public class App {
         try {
             File arquivo = new File(nomeArquivo);
             Scanner scannerArquivo = new Scanner(arquivo);
-
+    
             while (scannerArquivo.hasNextLine()) {
                 String linha = scannerArquivo.nextLine();
                 String[] dados = linha.split("-");
-
-                if (dados.length >= 6) {
+    
+                if (dados.length >= 7) { 
                     String tipoVeiculoStr = dados[0];
                     String placa = dados[1];
                     int quantRotas = Integer.parseInt(dados[2]);
                     double capacidadeTanque = Double.parseDouble(dados[3]);
                     double totalReabastecido = Double.parseDouble(dados[4]);
                     double quilometragem = Double.parseDouble(dados[5]);
-
+                    Combustivel tipoCombustivel = Combustivel.valueOf(dados[7]); // Lendo o tipo de combustível
+    
                     Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
                     TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
-                    Combustivel tipoCombustivel = Combustivel.GASOLINA; // Defina um valor padrão
-
                     Manutencao manutencao = null;
-
+    
                     switch (tipoVeiculo) {
                         case CAMINHAO:
                             manutencao = new MCaminhao();
@@ -76,19 +75,17 @@ public class App {
                             manutencao = new MVan();
                             break;
                     }
-                    Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq,
-                            quilometragem);
+    
+                    Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq, quilometragem);
                     frota.adicionarVeiculo(novoVeiculo);
-
                 }
-
             }
             scannerArquivo.close();
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
         }
     }
-
+    
     public static void criarRotasParaVeiculos(Frota frota) {
         for (Veiculo veiculo : frota.getVeiculos()) {
             for (int i = 0; i < 15; i++) {
@@ -307,7 +304,7 @@ public class App {
                 String placaVeiculoAchar = scanner.next(); // Renomeando a variável
                 Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar); // Renomeando a variável
                 if (veiculoEncontrado2 != null) {
-                    double quilometragemTotal = veiculoEncontrado2.kmTotal();
+                    double quilometragemTotal = veiculoEncontrado2.getQuilometragem();
                     System.out
                             .println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
                 } else {

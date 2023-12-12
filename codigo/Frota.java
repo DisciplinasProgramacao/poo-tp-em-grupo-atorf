@@ -29,7 +29,8 @@ public class Frota {
         sb.append("\n");
         for (Veiculo veiculo : veiculos) {
             sb.append(veiculo.getPlaca()).append(" : ");
-            sb.append(veiculo.getTipoVeiculo()).append("\n");
+            sb.append(veiculo.getTipoVeiculo()).append(" : ");
+            sb.append(veiculo.getTipoCombustivel()).append("\n");
         }
         return sb.toString();
     }
