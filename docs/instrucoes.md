@@ -1,3 +1,3 @@
 # Instruções de uso
 
-Coloque neste arquivo qualquer instrução que julgar pertinente para a execução correta do sistema: arquivos de configuração, arquivos de dados, possíveis dados de teste etc.
+Para a execução do ATORF, é necessária a presença dos arquivos TXT que estão sendo usados como menu de opções no sistema. Além disso, as informações da frota são obtidas por meio de uma base de dados, outro arquivo TXT que deverá acompanhar o sistema.

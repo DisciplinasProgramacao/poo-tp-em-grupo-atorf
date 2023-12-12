@@ -48,38 +48,41 @@ public class App {
                 String linha = scannerArquivo.nextLine();
                 String[] dados = linha.split("-");
 
-                String tipoVeiculoStr = dados[0];
-                String placa = dados[1];
-                int quantRotas = Integer.parseInt(dados[2]);
-                double capacidadeTanque = Double.parseDouble(dados[3]);
-                double totalReabastecido = Double.parseDouble(dados[4]);
-                double quilometragem = Double.parseDouble(dados[5]);
+                if (dados.length >= 6) {
+                    String tipoVeiculoStr = dados[0];
+                    String placa = dados[1];
+                    int quantRotas = Integer.parseInt(dados[2]);
+                    double capacidadeTanque = Double.parseDouble(dados[3]);
+                    double totalReabastecido = Double.parseDouble(dados[4]);
+                    double quilometragem = Double.parseDouble(dados[5]);
 
-                Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
-                TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
-                Combustivel tipoCombustivel = Combustivel.GASOLINA; // Defina um valor padrão
+                    Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
+                    TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
+                    Combustivel tipoCombustivel = Combustivel.GASOLINA; // Defina um valor padrão
 
-                Manutencao manutencao = null;
+                    Manutencao manutencao = null;
 
-                switch (tipoVeiculo) {
-                    case CAMINHAO:
-                        manutencao = new MCaminhao();
-                        break;
-                    case CARRO:
-                        manutencao = new MCarro();
-                        break;
-                    case FURGAO:
-                        manutencao = new MFurgao();
-                        break;
-                    case VAN:
-                        manutencao = new MVan();
-                        break;
-                    // Adicione mais casos conforme necessário
+                    switch (tipoVeiculo) {
+                        case CAMINHAO:
+                            manutencao = new MCaminhao();
+                            break;
+                        case CARRO:
+                            manutencao = new MCarro();
+                            break;
+                        case FURGAO:
+                            manutencao = new MFurgao();
+                            break;
+                        case VAN:
+                            manutencao = new MVan();
+                            break;
+                    }
+                    Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq,
+                            quilometragem);
+                    frota.adicionarVeiculo(novoVeiculo);
+
                 }
-                Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq);
-                frota.adicionarVeiculo(novoVeiculo);
-            }
 
+            }
             scannerArquivo.close();
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
@@ -92,7 +95,7 @@ public class App {
                 double quilometragem = Math.random() * 100; // Gerando uma quilometragem aleatória
                 int dia = (int) (1 + Math.random() * 28); // Gerando um dia aleatório entre 1 e 28
                 int mes = (int) (1 + Math.random() * 12); // Gerando um mês aleatório entre 1 e 12
-                int ano = 2023; // Defina o ano desejado
+                int ano = 2023; 
 
                 Data dataRota = new Data(dia, mes, ano);
                 Rota rota = new Rota(quilometragem, dataRota);
@@ -225,7 +228,7 @@ public class App {
 
                 Tanque tanqueNovo = new Tanque(tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do tanque baseada no
                                                                                    // tipo de veículo
-                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo);
+                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo, 0);
                 frota.adicionarVeiculo(novoVeiculo);
                 System.out.println("Veiculo adicionado com sucesso.");
                 break;
@@ -261,8 +264,6 @@ public class App {
                 if (veiculoParaAbastecer != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
                     double litrosAbastecimento = scanner.nextDouble();
-                    // Verifique se a quantidade de litros é válida (por exemplo, não excede a
-                    // capacidade do tanque)
                     if (veiculoParaAbastecer.podeAbastecer(litrosAbastecimento)) {
                         veiculoParaAbastecer.abastecer(litrosAbastecimento);
                         System.out.println("Veículo abastecido com sucesso!");
@@ -301,7 +302,7 @@ public class App {
                 }
                 break;
 
-                case 10:
+            case 10:
                 System.out.println("Digite a placa do veículo:");
                 String placa2 = scanner.nextLine();
                 Veiculo veiculo = frota.localizarVeiculo(placa2);
@@ -312,19 +313,19 @@ public class App {
                     System.out.println("Veículo não encontrado.");
                 }
                 break;
-            
+
             case 11:
                 System.out.println("Informe a placa do veículo: ");
-                String placaVeiculoAchar = scanner.next();  // Renomeando a variável
-                Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar);  // Renomeando a variável
+                String placaVeiculoAchar = scanner.next(); // Renomeando a variável
+                Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar); // Renomeando a variável
                 if (veiculoEncontrado2 != null) {
                     double quilometragemTotal = veiculoEncontrado2.kmTotal();
-                    System.out.println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
+                    System.out
+                            .println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
                 } else {
                     System.out.println("Veículo não encontrado.");
                 }
                 break;
-            
 
             case 0:
                 System.out.println("Saindo...");

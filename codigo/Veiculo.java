@@ -18,10 +18,6 @@ public class Veiculo {
 	private double quilometragem;
 	private TipoVeiculo tipoVeiculo;
 	private Combustivel tipoCombustivel;
-	public Manutencao getManutencao() {
-		return manutencao;
-	}
-
 	private Manutencao manutencao;
 
 	/**
@@ -29,10 +25,8 @@ public class Veiculo {
 	 * 
 	 * @param placaNova
 	 */
-
-
-	// Construtor que aceita um tipo específico de Manutencao
-	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Combustivel tipoCombustivel, Manutencao manutencao, Tanque tanque) {
+	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Combustivel tipoCombustivel, Manutencao manutencao,
+			Tanque tanque, double quilometragem) {
 		this.placa = placa;
 		this.tipoVeiculo = tipoVeiculo;
 		this.tanque = tanque;
@@ -40,9 +34,19 @@ public class Veiculo {
 		this.tipoCombustivel = tipoCombustivel;
 		this.manutencao = manutencao;
 		this.tanque = tanque;
+		this.quilometragem = quilometragem;
 	}
 
-	public Veiculo(String placa2, TipoVeiculo tipoVeiculo2, Tanque tq, Manutencao manutencao2) {
+	public Manutencao getManutencao() {
+		return manutencao;
+	}
+
+	public double getQuilometragem() {
+		return quilometragem;
+	}
+
+	public void setQuilometragem(double quilometragem) {
+		this.quilometragem = quilometragem;
 	}
 
 	public Combustivel getTipoCombustivel() {
@@ -79,7 +83,7 @@ public class Veiculo {
 	 *         atingido.
 	 */
 
-	 public boolean addRota(Rota rota) {
+	public boolean addRota(Rota rota) {
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
@@ -211,14 +215,13 @@ public class Veiculo {
 	 *         manutenção
 	 */
 
-	 public double calcularDespesaTotal() {
+	public double calcularDespesaTotal() {
 		double precoCombustivel = this.tipoCombustivel.getPrecoLitro();
 		double consumoCombustivel = this.tipoCombustivel.getConsumoMedio();
 		double custoCombustivel = (this.quilometragem / consumoCombustivel) * precoCombustivel;
 		double custoManutencao = this.manutencao.calcularCusto(this.quilometragem);
 		return custoCombustivel + custoManutencao;
 	}
-	
 
 	/**
 	 * Verifica se é possível abastecer a quantidade especificada de combustível.
@@ -233,12 +236,12 @@ public class Veiculo {
 	public void atualizarQuilometragem(double quilometragemRota) {
 		this.quilometragem += quilometragemRota;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Veiculo{" +
-				"placa='" + placa + '\'' +
-				", quilometragem=" + kmTotal() +
+		return "Veiculo{" + getTipoVeiculo() + " portador da placa" +
+				"'" + placa + '\'' +
+				", tendo " + getQuilometragem() + " km " +
 				'}';
 	}
 
