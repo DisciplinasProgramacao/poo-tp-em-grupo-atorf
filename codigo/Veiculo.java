@@ -30,15 +30,6 @@ public class Veiculo {
 	 * @param placaNova
 	 */
 
-	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Tanque tanque, int quantRotas, double quilometragem) {
-		this.placa = placa;
-		this.tipoVeiculo = tipoVeiculo;
-		this.tanque = tanque;
-		this.quantRotas = quantRotas;
-		this.quilometragem = quilometragem;
-		this.rotas = new Rota[MAX_ROTAS]; // Inicializando o array rotas
-
-	}
 
 	// Construtor que aceita um tipo específico de Manutencao
 	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Combustivel tipoCombustivel, Manutencao manutencao, Tanque tanque) {
@@ -221,19 +212,14 @@ public class Veiculo {
 	 *         manutenção
 	 */
 
-	 public double calculaDespesas(Combustivel tipoCombustivel, Manutencao tipoManutencao, double kmAtual) {
-        double custoCombustivel = calculaCustoCombustivel(tipoCombustivel, kmAtual);
-        double custoManutencao = tipoManutencao != null ? tipoManutencao.calcularCusto(kmAtual) : 0;
-
-        return custoCombustivel + custoManutencao;
-    }
-
-    private double calculaCustoCombustivel(Combustivel tipoCombustivel, double kmAtual) {
-        double consumoMedio = tipoCombustivel.getConsumoMedio();
-        double quantidadeCombustivel = kmAtual / consumoMedio;
-        double precoPorLitro = tipoCombustivel.getPrecoLitro();
-        return quantidadeCombustivel * precoPorLitro;
-    }
+	 public double calcularDespesaTotal() {
+		double precoCombustivel = this.tipoCombustivel.getPrecoLitro();
+		double consumoCombustivel = this.tipoCombustivel.getConsumoMedio();
+		double custoCombustivel = (this.quilometragem / consumoCombustivel) * precoCombustivel;
+		double custoManutencao = this.manutencao.calcularCusto(this.quilometragem);
+		return custoCombustivel + custoManutencao;
+	}
+	
 
 	/**
 	 * Verifica se é possível abastecer a quantidade especificada de combustível.
