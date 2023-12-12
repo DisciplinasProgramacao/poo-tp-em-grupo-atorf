@@ -79,15 +79,14 @@ public class Veiculo {
 	 *         atingido.
 	 */
 
-	public boolean addRota(Rota rota) {
-		boolean tmp = false;
+	 public boolean addRota(Rota rota) {
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
-			tmp = true;
-			return tmp;
+			atualizarQuilometragem(rota.getQuilometragem()); // Atualiza a quilometragem total
+			return true;
 		} else {
-			return tmp;
+			return false;
 		}
 	}
 
@@ -231,6 +230,10 @@ public class Veiculo {
 		return tanque.getCapacidadeAtual() + litrosAbastecimento <= tanque.getCapacidadeMaxima();
 	}
 
+	public void atualizarQuilometragem(double quilometragemRota) {
+		this.quilometragem += quilometragemRota;
+	}
+	
 	@Override
 	public String toString() {
 		return "Veiculo{" +
