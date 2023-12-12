@@ -23,7 +23,7 @@ public interface Manutencao {
      * @param kmAtual A quilometragem atual do veículo.
      * @return Verdadeiro se o veículo precisar de troca de pneus, falso caso contrário.
      */
-    boolean precisaTrocaPneus(double kmAtual);
+    boolean precisaTrocaPecas(double kmAtual);
 
     /**
      * Calcula o custo da manutenção com base na quilometragem atual do veículo.
@@ -45,7 +45,7 @@ public interface Manutencao {
      *
      * @param kmAtual A quilometragem atual na qual a troca de pneus é realizada.
      */
-    void registrarTrocaPneus(double kmAtual);
+    void registrarTrocaPecas(double kmAtual);
 
     /**
      * Fornece informações sobre a manutenção realizada no veículo.

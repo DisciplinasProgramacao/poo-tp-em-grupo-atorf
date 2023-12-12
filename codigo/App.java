@@ -156,7 +156,7 @@ public class App {
                 break;
 
             case 2:
-                System.out.println("Digite a placa: ");
+                System.out.print("Digite a placa: ");
                 String placa = scanner.next();
                 Veiculo veiculoEncontrado = frota.localizarVeiculo(placa);
                 if (veiculoEncontrado != null) {
@@ -167,13 +167,13 @@ public class App {
                 break;
 
             case 3:
-                System.out.println("Digite a placa do veículo:");
+                System.out.print("Digite a placa do veículo: ");
                 String placaVeiculoRota = scanner.nextLine();
-                System.out.println("Escreva a Quilometragem:");
+                System.out.print("Escreva a Quilometragem: ");
                 double quilometragem = scanner.nextDouble();
                 scanner.nextLine();
 
-                System.out.println("Escreva a Data (no formato DD/MM/AAAA):");
+                System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
                 String dataInput = scanner.nextLine();
                 String[] dataSplit = dataInput.split("/");
                 int dia = Integer.parseInt(dataSplit[0]);
@@ -197,7 +197,7 @@ public class App {
                 break;
 
             case 4:
-                System.out.println("Placa: ");
+                System.out.print("Placa: ");
                 String placaNova = scanner.nextLine();
                 String arquivoLer = "menuTipoVeiculo";
                 lerMenu(arquivoLer);
@@ -205,7 +205,8 @@ public class App {
                 TipoVeiculo tipoVeiculo;
                 Combustivel tipoCombustivel = Combustivel.GASOLINA; // Valor padrão
 
-                System.out.println("Escolha o tipo de combustível (1: Álcool, 2: Diesel, 3: Gasolina):");
+               String arqLerComb = "menuCombustivel";
+               lerMenu(arqLerComb);
                 int escolhaCombustivel = scanner.nextInt();
                 switch (escolhaCombustivel) {
                     case 1:
@@ -308,7 +309,7 @@ public class App {
                 break;
 
             case 9:
-                System.out.println("Digite a placa do veículo:");
+                System.out.print("Digite a placa do veículo: ");
                 String placa2 = scanner.nextLine();
                 Veiculo veiculo = frota.localizarVeiculo(placa2);
                 if (veiculo != null) {
@@ -319,7 +320,7 @@ public class App {
                 break;
 
             case 10:
-                System.out.println("Digite a placa do veículo:");
+                System.out.print("Digite a placa do veículo: ");
                 String placa3 = scanner.nextLine();
                 Veiculo veiculo2 = frota.localizarVeiculo(placa3);
                 if (veiculo2 != null) {
@@ -331,7 +332,7 @@ public class App {
                 break;
 
             case 11:
-                System.out.println("Informe a placa do veículo: ");
+                System.out.print("Informe a placa do veículo: ");
                 String placaVeiculoAchar = scanner.next(); // Renomeando a variável
                 Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar); // Renomeando a variável
                 if (veiculoEncontrado2 != null) {
@@ -480,7 +481,7 @@ public class App {
         limparTela();
         String nomeArquivo = "menuManutencao";
         System.out.println("==========================");
-        System.out.println("Informe a placa: ");
+        System.out.print("Informe a placa: ");
         String placaCam = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
@@ -490,7 +491,7 @@ public class App {
 
         switch (opcaoManutencao) {
             case 1:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 double kmAtual = scanner.nextDouble();
 
                 MCaminhao mPeriodicaCaminhao = new MCaminhao();
@@ -499,7 +500,7 @@ public class App {
                 break;
 
             case 2:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 kmAtual = scanner.nextDouble();
 
                 MCaminhao mTrocaPneuCaminhao = new MCaminhao();
@@ -527,7 +528,7 @@ public class App {
         limparTela();
         String nomeArquivo = "menuManutencao";
         System.out.println("==========================");
-        System.out.println("Informe a placa: ");
+        System.out.print("Informe a placa: ");
         String placaCarro = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
@@ -537,7 +538,7 @@ public class App {
 
         switch (opcaoManutencao) {
             case 1:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 double kmAtual = scanner.nextDouble();
 
                 MCarro mPeriodicaCarro = new MCarro();
@@ -546,7 +547,7 @@ public class App {
                 break;
 
             case 2:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 kmAtual = scanner.nextDouble();
 
                 MCarro mTrocaPneuCarro = new MCarro();
@@ -584,7 +585,7 @@ public class App {
 
         switch (opcaoManutencao) {
             case 1:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 double kmAtual = scanner.nextDouble();
 
                 MFurgao mPeriodicaFurgao = new MFurgao();
@@ -593,7 +594,7 @@ public class App {
                 break;
 
             case 2:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 kmAtual = scanner.nextDouble();
 
                 MFurgao mTrocaPneuFurgao = new MFurgao();
@@ -621,7 +622,7 @@ public class App {
         limparTela();
         String nomeArquivo = "menuManutencao";
         System.out.println("==========================");
-        System.out.println("Informe a placa: ");
+        System.out.print("Informe a placa: ");
         String placaVan = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
@@ -631,7 +632,7 @@ public class App {
 
         switch (opcaoManutencao) {
             case 1:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 double kmAtual = scanner.nextDouble();
 
                 MVan mPeriodicaVan = new MVan();
@@ -640,7 +641,7 @@ public class App {
                 break;
 
             case 2:
-                System.out.println("Informe a KM atual: ");
+                System.out.print("Informe a KM atual: ");
                 kmAtual = scanner.nextDouble();
 
                 MVan mTrocaPneuVan = new MVan();

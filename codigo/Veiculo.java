@@ -268,8 +268,8 @@ public class Veiculo {
 		if (manutencao.precisaManutencaoPeriodica(quilometragem)) {
 			manutencao.registrarManutencaoPeriodica(quilometragem);
 		}
-		if (manutencao.precisaTrocaPneus(quilometragem)) {
-			manutencao.registrarTrocaPneus(quilometragem);
+		if (manutencao.precisaTrocaPecas(quilometragem)) {
+			manutencao.registrarTrocaPecas(quilometragem);
 		}
 	}
 

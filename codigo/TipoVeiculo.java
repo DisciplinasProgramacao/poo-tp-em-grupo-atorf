@@ -10,8 +10,8 @@ import java.util.*;
  */
 public enum TipoVeiculo {
 
-	CARRO(50, 10.000, 10.000),
 	CAMINHAO(60, 10.000, 12.000),
+	CARRO(50, 10.000, 10.000),
 	FURGAO(80, 10.000, 12.000),
 	VAN(250, 20.000, 20.000);
 

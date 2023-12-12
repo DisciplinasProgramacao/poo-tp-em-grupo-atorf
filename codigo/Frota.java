@@ -36,7 +36,9 @@ public class Frota {
         for (Veiculo veiculo : veiculos) {
             sb.append(veiculo.getPlaca()).append(" : ");
             sb.append(veiculo.getTipoVeiculo()).append(" : ");
-            sb.append(veiculo.getTipoCombustivel()).append("\n");
+            sb.append(veiculo.getTipoCombustivel()).append(" : ");
+            sb.append(veiculo.getQuilometragem()).append("KM");
+            sb.append("\n");
         }
         return sb.toString();
     }
