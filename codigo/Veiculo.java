@@ -138,6 +138,7 @@ public class Veiculo {
 	 * 
 	 * @return Quilometragem médida do veículo.
 	 */
+
 	public double kmMedia() {
 		double totalKmVeiculo = 0;
 		int rotasValidas = 0;
@@ -147,8 +148,9 @@ public class Veiculo {
 				rotasValidas++;
 			}
 		}
-		return rotasValidas == 0 ? 0 : totalKmVeiculo / rotasValidas;
+		return rotasValidas > 0 ? totalKmVeiculo / rotasValidas : 0;
 	}
+	
 
 	/**
 	 * Irá passar como parâmetro uma rota e essa será percorrida caso o limite não
