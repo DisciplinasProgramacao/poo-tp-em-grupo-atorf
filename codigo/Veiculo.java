@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Veiculo {
 
-	private static int MAX_ROTAS;
+	private static int MAX_ROTAS = 10;
 	private static double CONSUMO;
 	private String placa;
 	private Rota[] rotas;
@@ -22,12 +22,12 @@ public class Veiculo {
 	 * @param placaNova
 	 */
 
-	public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido) {
+	 public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido) {
 		this.placa = placa;
 		this.quantRotas = quantRotas;
 		this.tanque = tanque;
 		this.totalReabastecido = totalReabastecido;
-		this.rotas = new Rota[quantRotas];
+		this.rotas = new Rota[MAX_ROTAS];
 	}
 
 	/**

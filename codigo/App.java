@@ -63,11 +63,16 @@ public class App {
                 Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
                 if (veiculoExistente != null) {
                     Rota rota = new Rota(quilometragem, dataRota);
-                    veiculoExistente.addRota(rota);
+                    if (!veiculoExistente.addRota(rota)) {
+                        System.out.println("Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
+                    } else {
+                        System.out.println("Rota adicionada com sucesso ao veículo " + placaVeiculoRota);
+                    }
                 } else {
                     System.out.println("Veículo não encontrado na frota.");
                 }
                 break;
+            
             
                 
 
