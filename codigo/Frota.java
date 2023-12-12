@@ -5,6 +5,10 @@ import java.util.List;
 
 /**
  * Classe que representa uma frota de veículos.
+ * Esta classe gerencia uma coleção de veículos, permitindo operações como
+ * adição de veículos,
+ * geração de relatórios e outras funcionalidades relacionadas ao gerenciamento
+ * da frota.
  */
 public class Frota {
 
@@ -12,7 +16,9 @@ public class Frota {
 
     /**
      * Construtor da classe Frota.
-     * 
+     * Inicializa a lista de veículos com a capacidade baseada no tamanho máximo
+     * fornecido.
+     *
      * @param tamanhoFrota O tamanho máximo da frota.
      */
     public Frota(int tamanhoFrota) {
@@ -36,8 +42,12 @@ public class Frota {
     }
 
     /**
-     * Localiza um veículo na frota pela placa.
-     * 
+     * Localiza um veículo na frota pelo número da placa.
+     * Este método percorre a lista de veículos na frota e retorna o veículo cuja
+     * placa corresponde
+     * à placa fornecida. Se nenhum veículo for encontrado com a placa especificada,
+     * retorna null.
+     *
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo encontrado ou null se não for encontrado.
      */
@@ -49,13 +59,13 @@ public class Frota {
         }
         return null;
     }
-    
-    
 
     /**
      * Calcula a quilometragem total da frota.
-     * 
-     * @return A quilometragem total.
+     * Este método soma a quilometragem de todos os veículos na frota e retorna o
+     * total.
+     *
+     * @return A quilometragem total da frota.
      */
     public double quilometragemTotal() {
         double totalKm = 0;
@@ -67,8 +77,12 @@ public class Frota {
 
     /**
      * Encontra o veículo com a maior quilometragem total na frota.
-     * 
-     * @return O veículo com a maior quilometragem total.
+     * Este método percorre todos os veículos na frota e retorna o veículo com a
+     * maior quilometragem total.
+     * Se a frota estiver vazia, retorna null.
+     *
+     * @return O veículo com a maior quilometragem total, ou null se a frota estiver
+     *         vazia.
      */
     public Veiculo maiorKmTotal() {
         Veiculo maior = null;
@@ -82,8 +96,13 @@ public class Frota {
 
     /**
      * Encontra o veículo com a maior quilometragem média na frota.
-     * 
-     * @return O veículo com a maior quilometragem média.
+     * Este método percorre todos os veículos na frota e retorna o veículo com a
+     * maior quilometragem média.
+     * A quilometragem média pode ser uma medida de uso regular do veículo.
+     * Se a frota estiver vazia, retorna null.
+     *
+     * @return O veículo com a maior quilometragem média, ou null se a frota estiver
+     *         vazia.
      */
     public Veiculo maiorKmMedia() {
         Veiculo maiorMedia = null;
@@ -91,7 +110,8 @@ public class Frota {
 
         for (Veiculo veiculo : veiculos) {
             if (veiculo != null) {
-                double kmMediaAtual = veiculo.getQuilometragem(); // Assumindo que kmMedia() será implementada na Classe Veiculo
+                double kmMediaAtual = veiculo.getQuilometragem(); // Assumindo que kmMedia() será implementada na Classe
+                                                                  // Veiculo
 
                 if (maiorMedia == null || kmMediaAtual > maiorKmMedia) {
                     maiorMedia = veiculo;
@@ -103,30 +123,49 @@ public class Frota {
     }
 
     /**
-     * Metodo para adicionar um veiculo a frota
-     * @param veiculo
+     * Adiciona um veículo à frota.
+     * Este método insere um veículo na lista de veículos da frota.
+     * Pode ser usado para expandir a frota com novos veículos.
+     *
+     * @param veiculo O veículo a ser adicionado à frota.
      */
     public void adicionarVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
     }
 
     /**
-     * Metodo para remover um veiculo da frota
-     * @param veiculo
-     * @return
+     * Remove um veículo da frota.
+     * Este método tenta remover um veículo específico da lista de veículos da
+     * frota.
+     * Retorna verdadeiro se o veículo for removido com sucesso, caso contrário,
+     * retorna falso.
+     *
+     * @param veiculo O veículo a ser removido da frota.
+     * @return Verdadeiro se o veículo for removido com sucesso, falso caso
+     *         contrário.
      */
     public boolean removerVeiculo(Veiculo veiculo) {
         return veiculos.remove(veiculo);
     }
 
     /**
-     * Metodo para obter a quantidade de veiculos na frota
-     * @return
+     * Retorna a quantidade de veículos na frota.
+     * Este método conta e retorna o número de veículos atualmente presentes na
+     * frota.
+     *
+     * @return O número de veículos na frota.
      */
     public int quantidadeVeiculos() {
         return veiculos.size();
     }
 
+    /**
+     * Retorna uma array de veículos presentes na frota.
+     * Este método permite acesso à lista completa de veículos na frota,
+     * retornando-os como uma array.
+     *
+     * @return Array de veículos presentes na frota.
+     */
     public Veiculo[] getVeiculos() {
         return veiculos.toArray(new Veiculo[0]);
     }

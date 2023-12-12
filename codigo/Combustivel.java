@@ -3,6 +3,11 @@ package codigo;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Enumeração para diferentes tipos de combustíveis.
+ * Cada tipo de combustível tem um consumo médio e um preço por litro
+ * associados.
+ */
 public enum Combustivel {
 
 	ALCOOL(7, 3.29),
@@ -12,16 +17,16 @@ public enum Combustivel {
 	private final double consumoMedio;
 	private final double precoLitro;
 
-	Combustivel(double consumoMedio, double precoLitro){
+	Combustivel(double consumoMedio, double precoLitro) {
 		this.consumoMedio = consumoMedio;
 		this.precoLitro = precoLitro;
 	}
 
-	public double getConsumoMedio(){
+	public double getConsumoMedio() {
 		return consumoMedio;
 	}
 
-	public double getPrecoLitro(){
+	public double getPrecoLitro() {
 		return precoLitro;
 	}
 }

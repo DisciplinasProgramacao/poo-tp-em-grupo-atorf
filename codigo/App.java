@@ -7,19 +7,33 @@ import java.util.Scanner;
 /**
  * Esta classe representa o aplicativo principal para gerenciamento de uma frota
  * de veículos.
+ * Ela oferece funcionalidades para interação com o usuário através de um
+ * console,
+ * permitindo a realização de diversas operações relacionadas ao gerenciamento
+ * de veículos.
  */
 public class App {
     static Scanner scanner = new Scanner(System.in);
     static Frota frota = new Frota(20);
 
     /**
-     * "Limpa" a tela (códigos de terminal VT-100)
+     * Limpa a tela do console.
+     * Este método utiliza códigos de terminal VT-100 para limpar a tela,
+     * proporcionando uma interface de usuário mais limpa e organizada.
      */
     public static void limparTela() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * O ponto de entrada principal do aplicativo.
+     * Este método inicia a execução do aplicativo, limpa a tela, lê os dados dos
+     * veículos de um arquivo,
+     * e processa as opções do menu principal.
+     *
+     * @param args Argumentos da linha de comando (não utilizados neste método).
+     */
     public static void main(String[] args) {
         limparTela();
 
@@ -36,19 +50,26 @@ public class App {
 
     /**
      * Lê os dados dos veículos a partir de um arquivo.
+     * Este método abre um arquivo com o nome especificado e lê as informações dos
+     * veículos,
+     * como tipo, placa, número de rotas, capacidade do tanque, total reabastecido,
+     * quilometragem,
+     * e tipo de combustível. Essas informações são utilizadas para criar e
+     * configurar os veículos.
      *
      * @param nomeArquivo O nome do arquivo contendo os dados dos veículos.
+     * @throws FileNotFoundException Se o arquivo especificado não for encontrado.
      */
     public static void lerArquivoVeiculos(String nomeArquivo) {
         try {
             File arquivo = new File(nomeArquivo);
             Scanner scannerArquivo = new Scanner(arquivo);
-    
+
             while (scannerArquivo.hasNextLine()) {
                 String linha = scannerArquivo.nextLine();
                 String[] dados = linha.split("-");
-    
-                if (dados.length >= 7) { 
+
+                if (dados.length >= 7) {
                     String tipoVeiculoStr = dados[0];
                     String placa = dados[1];
                     int quantRotas = Integer.parseInt(dados[2]);
@@ -56,11 +77,11 @@ public class App {
                     double totalReabastecido = Double.parseDouble(dados[4]);
                     double quilometragem = Double.parseDouble(dados[5]);
                     Combustivel tipoCombustivel = Combustivel.valueOf(dados[7]); // Lendo o tipo de combustível
-    
+
                     Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
                     TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
                     Manutencao manutencao = null;
-    
+
                     switch (tipoVeiculo) {
                         case CAMINHAO:
                             manutencao = new MCaminhao();
@@ -75,8 +96,9 @@ public class App {
                             manutencao = new MVan();
                             break;
                     }
-    
-                    Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq, quilometragem);
+
+                    Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq,
+                            quilometragem);
                     frota.adicionarVeiculo(novoVeiculo);
                 }
             }
@@ -85,7 +107,15 @@ public class App {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Cria rotas aleatórias para cada veículo na frota.
+     * Este método percorre cada veículo na frota fornecida e gera rotas com
+     * quilometragem,
+     * data e outros detalhes gerados aleatoriamente.
+     *
+     * @param frota A frota de veículos para a qual as rotas serão criadas.
+     */
     public static void criarRotasParaVeiculos(Frota frota) {
         for (Veiculo veiculo : frota.getVeiculos()) {
             for (int i = 0; i < 15; i++) {
@@ -104,6 +134,11 @@ public class App {
 
     /**
      * Exibe o menu principal e processa as opções escolhidas pelo usuário.
+     * Este método lê as opções de menu de um arquivo e permite ao usuário escolher
+     * uma opção.
+     * As ações correspondentes são executadas com base na escolha do usuário,
+     * incluindo exibição de relatórios,
+     * localização de veículos, entre outras funções.
      *
      * @param nomeArquivo O nome do arquivo contendo as opções do menu.
      * @return A opção escolhida pelo usuário.
@@ -272,8 +307,6 @@ public class App {
                 }
                 break;
 
-            // ... dentro do switch-case da classe App ...
-
             case 9:
                 System.out.println("Digite a placa do veículo:");
                 String placa2 = scanner.nextLine();
@@ -284,8 +317,6 @@ public class App {
                     System.out.println("Veículo não encontrado.");
                 }
                 break;
-
-            
 
             case 10:
                 System.out.println("Digite a placa do veículo:");
@@ -435,6 +466,16 @@ public class App {
         return null;
     }
 
+    /**
+     * Exibe o menu de manutenção para caminhões e processa a escolha do usuário.
+     * Este método limpa a tela, exibe um menu de manutenção para caminhões e
+     * solicita ao usuário
+     * que escolha uma opção de manutenção. As opções incluem manutenção periódica e
+     * troca de pneus.
+     * Após a escolha, o usuário é solicitado a fornecer a quilometragem atual do
+     * caminhão
+     * para realizar a manutenção correspondente.
+     */
     public static void menuManutencaoCaminhao() {
         limparTela();
         String nomeArquivo = "menuManutencao";
@@ -472,6 +513,16 @@ public class App {
         }
     }
 
+    /**
+     * Exibe o menu de manutenção para carros e processa a escolha do usuário.
+     * Este método inicia limpando a tela para uma apresentação clara, exibe um menu
+     * de manutenção específico para carros,
+     * e solicita ao usuário que informe a placa do carro e escolha uma opção de
+     * manutenção.
+     * As opções de manutenção incluem manutenção periódica e troca de pneus. A
+     * manutenção é realizada
+     * com base na quilometragem atual do carro, que é solicitada ao usuário.
+     */
     public static void menuManutencaoCarro() {
         limparTela();
         String nomeArquivo = "menuManutencao";
@@ -509,6 +560,16 @@ public class App {
         }
     }
 
+    /**
+     * Exibe o menu de manutenção para furgões e processa a escolha do usuário.
+     * Este método começa limpando a tela, seguido da exibição de um menu de
+     * manutenção específico para furgões.
+     * O usuário é solicitado a informar a placa do furgão e a escolher uma opção de
+     * manutenção.
+     * As opções disponíveis incluem manutenção periódica e troca de pneus. A
+     * escolha da manutenção
+     * é baseada na quilometragem atual do furgão, que é solicitada ao usuário.
+     */
     public static void menuManutencaoFurgao() {
         limparTela();
         String nomeArquivo = "menuManutencao";
@@ -546,6 +607,16 @@ public class App {
         }
     }
 
+    /**
+     * Exibe o menu de manutenção para vans e processa a escolha do usuário.
+     * Este método inicia com a limpeza da tela, seguido pela apresentação de um
+     * menu de manutenção específico para vans.
+     * O usuário é solicitado a informar a placa da van e a escolher um tipo de
+     * manutenção.
+     * As opções de manutenção incluem manutenção periódica e troca de pneus, com a
+     * manutenção sendo realizada
+     * com base na quilometragem atual da van, que é solicitada ao usuário.
+     */
     public static void menuManutencaoVan() {
         limparTela();
         String nomeArquivo = "menuManutencao";
@@ -585,6 +656,8 @@ public class App {
 
     /**
      * Lê o conteúdo de um arquivo e exibe na tela.
+     * Este método é utilizado para ler as opções de menu de um arquivo e exibi-las
+     * ao usuário.
      *
      * @param nomeArquivo O nome do arquivo a ser lido.
      */

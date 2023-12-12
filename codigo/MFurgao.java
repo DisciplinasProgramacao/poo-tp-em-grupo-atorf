@@ -3,6 +3,12 @@ package codigo;
 import java.io.*;
 import java.util.*;
 
+
+/**
+ * Classe que implementa a interface Manutencao para furgões.
+ * Esta classe define a lógica de manutenção específica para furgões, incluindo critérios para manutenção periódica e troca de pneus,
+ * além de calcular os custos de manutenção.
+ */
 public class MFurgao implements Manutencao {
     private static final double KM_MANUTENCAO_PERIODICA = 10000;
     private static final double KM_TROCA_PNEUS = 12000;

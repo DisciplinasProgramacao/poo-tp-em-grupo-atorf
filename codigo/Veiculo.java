@@ -5,6 +5,8 @@ import java.util.*;
 
 /**
  * Classe que representa um veículo da frota.
+ * Armazena informações como placa, rotas realizadas, tipo de veículo,
+ * combustível utilizado e manutenção.
  */
 public class Veiculo {
 
@@ -37,14 +39,29 @@ public class Veiculo {
 		this.quilometragem = quilometragem;
 	}
 
+	/**
+	 * Retorna o objeto de manutenção associado ao veículo.
+	 *
+	 * @return O objeto de manutenção do veículo.
+	 */
 	public Manutencao getManutencao() {
 		return manutencao;
 	}
 
+	/**
+	 * Retorna a quilometragem total do veículo.
+	 *
+	 * @return A quilometragem do veículo.
+	 */
 	public double getQuilometragem() {
 		return quilometragem;
 	}
 
+	/**
+	 * Define a quilometragem total do veículo.
+	 *
+	 * @param quilometragem A nova quilometragem do veículo.
+	 */
 	public void setQuilometragem(double quilometragem) {
 		this.quilometragem = quilometragem;
 	}
@@ -76,10 +93,11 @@ public class Veiculo {
 	}
 
 	/**
-	 * Método par adicionar uma nova rota.
-	 * 
-	 * @param rota
-	 * @return True se a rota foi adicionada, ou false caso o limite de rotas for
+	 * Adiciona uma nova rota ao veículo.
+	 * Atualiza a quilometragem total do veículo com base na rota adicionada.
+	 *
+	 * @param rota A rota a ser adicionada.
+	 * @return True se a rota foi adicionada, ou false caso o limite de rotas seja
 	 *         atingido.
 	 */
 
@@ -204,15 +222,10 @@ public class Veiculo {
 	}
 
 	/**
-	 * Esse metódo será utilizado para calcular as despesas totais do veículo,
-	 * considerando o seu tipo de combustivel, qual manutenção ele irá realizar e
-	 * sua quilometragem.
-	 * 
-	 * @param tipoCombustivel
-	 * @param tipoManutencao
-	 * @param kmAtual
-	 * @return O valor das despesas totais contando o custo do combustivel e da
-	 *         manutenção
+	 * Calcula as despesas totais do veículo, considerando o custo do combustível e
+	 * da manutenção.
+	 *
+	 * @return O valor total das despesas, incluindo combustível e manutenção.
 	 */
 
 	public double calcularDespesaTotal() {
@@ -224,21 +237,33 @@ public class Veiculo {
 	}
 
 	/**
-	 * Verifica se é possível abastecer a quantidade especificada de combustível.
+	 * Verifica se é possível abastecer a quantidade especificada de combustível no
+	 * tanque do veículo.
 	 *
-	 * @param litrosAbastecimento a quantidade de combustível a ser abastecida.
+	 * @param litrosAbastecimento A quantidade de combustível a ser abastecida.
 	 * @return true se for possível abastecer essa quantidade, false caso contrário.
 	 */
 	public boolean podeAbastecer(double litrosAbastecimento) {
 		return tanque.getCapacidadeAtual() + litrosAbastecimento <= tanque.getCapacidadeMaxima();
 	}
 
+	/**
+	 * Atualiza a quilometragem total do veículo, adicionando a quilometragem de uma
+	 * rota recente.
+	 * Também verifica se alguma manutenção é necessária com base na nova
+	 * quilometragem.
+	 *
+	 * @param quilometragemRota A quilometragem da rota adicionada ao veículo.
+	 */
 	public void atualizarQuilometragem(double quilometragemRota) {
 		this.quilometragem += quilometragemRota;
 		verificarManutencao(); // Verifica se alguma manutenção é necessária
 	}
-	
 
+	/**
+	 * Verifica se o veículo precisa de manutenção periódica ou troca de pneus e
+	 * registra a manutenção se necessário.
+	 */
 	public void verificarManutencao() {
 		if (manutencao.precisaManutencaoPeriodica(quilometragem)) {
 			manutencao.registrarManutencaoPeriodica(quilometragem);
@@ -248,6 +273,12 @@ public class Veiculo {
 		}
 	}
 
+	/**
+	 * Fornece uma representação textual do veículo, incluindo tipo, placa e
+	 * quilometragem.
+	 *
+	 * @return Uma string descrevendo o veículo.
+	 */
 	@Override
 	public String toString() {
 		return "Veiculo{" + getTipoVeiculo() + " portador da placa" +
