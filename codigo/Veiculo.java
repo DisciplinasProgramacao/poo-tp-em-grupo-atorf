@@ -15,6 +15,7 @@ public class Veiculo {
 	private int quantRotas;
 	private Tanque tanque;
 	private double totalReabastecido;
+	private double quilometragem;
 
 	/**
 	 * Construtor da classe Veiculo
@@ -22,12 +23,13 @@ public class Veiculo {
 	 * @param placaNova
 	 */
 
-	 public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido) {
+	 public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido, double quilometragem) {
 		this.placa = placa;
 		this.quantRotas = quantRotas;
 		this.tanque = tanque;
 		this.totalReabastecido = totalReabastecido;
 		this.rotas = new Rota[MAX_ROTAS];
+		this.quilometragem = quilometragem;
 	}
 
 	/**
@@ -132,6 +134,7 @@ public class Veiculo {
 		}
 		return totalKmVeiculo;
 	}
+	
 
 	/**
 	 * O método irá retonar a quilometragem média do veículo.

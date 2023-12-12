@@ -26,6 +26,7 @@ public class Frota {
      */
     public String relatorio() {
         StringBuilder sb = new StringBuilder("\nVeiculos da Frota: ");
+        sb.append("\n");
         for (Veiculo veiculo : veiculos) {
             sb.append(veiculo.getPlaca()).append("\n");
         }
@@ -98,17 +99,32 @@ public class Frota {
         return maiorMedia;
     }
 
-    // Métodos para manipular a lista de veículos
-
+    /**
+     * Metodo para adicionar um veiculo a frota
+     * @param veiculo
+     */
     public void adicionarVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
     }
 
+    /**
+     * Metodo para remover um veiculo da frota
+     * @param veiculo
+     * @return
+     */
     public boolean removerVeiculo(Veiculo veiculo) {
         return veiculos.remove(veiculo);
     }
 
+    /**
+     * Metodo para obter a quantidade de veiculos na frota
+     * @return
+     */
     public int quantidadeVeiculos() {
         return veiculos.size();
+    }
+
+    public Veiculo[] getVeiculos() {
+        return veiculos.toArray(new Veiculo[0]);
     }
 }

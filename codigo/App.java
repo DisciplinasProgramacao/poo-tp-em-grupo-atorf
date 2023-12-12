@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Esta classe representa o aplicativo principal para gerenciamento de uma frota
+ * de veículos.
+ */
 public class App {
     static Scanner scanner = new Scanner(System.in);
     static Frota frota = new Frota(20);
@@ -18,6 +22,10 @@ public class App {
 
     public static void main(String[] args) {
         limparTela();
+
+        String nomeArquivoVeiculos = "baseAtorf";
+        lerArquivoVeiculos(nomeArquivoVeiculos);
+
         String arqNome = "menuAtorf";
         int opcao;
         do {
@@ -26,6 +34,62 @@ public class App {
         scanner.close();
     }
 
+    /**
+     * Lê os dados dos veículos a partir de um arquivo.
+     *
+     * @param nomeArquivo O nome do arquivo contendo os dados dos veículos.
+     */
+    public static void lerArquivoVeiculos(String nomeArquivo) {
+        try {
+            File arquivo = new File(nomeArquivo);
+            Scanner scannerArquivo = new Scanner(arquivo);
+    
+            while (scannerArquivo.hasNextLine()) {
+                String linha = scannerArquivo.nextLine();
+                String[] dados = linha.split("-");
+    
+                String placa = dados[0];
+                int quantRotas = Integer.parseInt(dados[1]);
+                double capacidadeTanque = Double.parseDouble(dados[2]);
+                double totalReabastecido = Double.parseDouble(dados[3]);
+                double quilometragem = Double.parseDouble(dados[4]); // Novo campo de quilometragem
+    
+                Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
+    
+                Veiculo novoVeiculo = new Veiculo(placa, quantRotas, tq, totalReabastecido, quilometragem);
+                frota.adicionarVeiculo(novoVeiculo);
+            }
+    
+            scannerArquivo.close();
+            criarRotasParaVeiculos(frota);
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado: " + e.getMessage());
+        }
+    }    
+
+       public static void criarRotasParaVeiculos(Frota frota) {
+        for (Veiculo veiculo : frota.getVeiculos()) {
+            for (int i = 0; i < 15; i++) {
+                double quilometragem = Math.random() * 100; // Gerando uma quilometragem aleatória
+                int dia = (int) (1 + Math.random() * 28); // Gerando um dia aleatório entre 1 e 28
+                int mes = (int) (1 + Math.random() * 12); // Gerando um mês aleatório entre 1 e 12
+                int ano = 2023; // Defina o ano desejado
+    
+                Data dataRota = new Data(dia, mes, ano);
+                Rota rota = new Rota(quilometragem, dataRota);
+    
+                veiculo.addRota(rota);
+            }
+        }
+    }
+    
+
+    /**
+     * Exibe o menu principal e processa as opções escolhidas pelo usuário.
+     *
+     * @param nomeArquivo O nome do arquivo contendo as opções do menu.
+     * @return A opção escolhida pelo usuário.
+     */
     public static int menu(String nomeArquivo) {
         lerMenu(nomeArquivo);
         System.out.println("==========================");
@@ -50,14 +114,19 @@ public class App {
                 break;
 
                 case 3:
-                System.out.println("Digite a placa do veiculo:");
+                System.out.println("Digite a placa do veículo:");
                 String placaVeiculoRota = scanner.nextLine();
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
-                System.out.println("Escreva a Data:");
-                int dia = scanner.nextInt();
-                int mes = scanner.nextInt();
-                int ano = scanner.nextInt();
+                scanner.nextLine(); 
+            
+                System.out.println("Escreva a Data (no formato DD/MM/AAAA):");
+                String dataInput = scanner.nextLine();
+                String[] dataSplit = dataInput.split("/");
+                int dia = Integer.parseInt(dataSplit[0]);
+                int mes = Integer.parseInt(dataSplit[1]);
+                int ano = Integer.parseInt(dataSplit[2]);
+            
                 Data dataRota = new Data(dia, mes, ano);
             
                 Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
@@ -73,13 +142,11 @@ public class App {
                 }
                 break;
             
-            
-                
 
             case 4:
                 System.out.println("Placa: ");
                 String placaNova = scanner.nextLine();
-                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0);
+                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0,0);
                 frota.adicionarVeiculo(novoVeiculo);
                 System.out.println("Veiculo adicionado com sucesso.");
                 break;
@@ -112,7 +179,7 @@ public class App {
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
                 Veiculo procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
-                Veiculo veiculoParaAbastecer = new Veiculo(placaVeiculo, 0, null, 0);
+                Veiculo veiculoParaAbastecer = new Veiculo(placaVeiculo, 0, null, 0,0);
                 if (procurarVeiculo != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
                     double litrosAbastecimento = scanner.nextDouble();
@@ -123,8 +190,27 @@ public class App {
                 break;
 
             case 9:
-                String nomeArqM = "menuTipoVeiculo";
-                menuManutencao(nomeArqM);
+                System.out.println("Digite a placa do veículo para manutenção: ");
+                String placaManutencao = scanner.next();
+                Veiculo veiculoParaManutencao = frota.localizarVeiculo(placaManutencao);
+
+                if (veiculoParaManutencao != null) {
+                    String nomeArqManutencao = "menuTipoVeiculo";
+                    Manutencao tipoManutencao = menuManutencao(nomeArqManutencao);
+
+                    if (tipoManutencao != null) {
+                        System.out.println("Informe a quilometragem atual do veículo: ");
+                        double kmAtual = scanner.nextDouble();
+
+                        double despesas = veiculoParaManutencao.calculaDespesas(Combustivel.GASOLINA, tipoManutencao,
+                                kmAtual);
+                        System.out.println("O custo total das despesas é: " + despesas);
+                    } else {
+                        System.out.println("Tipo de manutenção inválido");
+                    }
+                } else {
+                    System.out.println("Veículo não encontrado na frota");
+                }
                 break;
 
             case 10:
@@ -145,13 +231,26 @@ public class App {
                 System.out.println("Informe a placa do veículo: ");
                 String placaVeiculoCalc = scanner.next();
                 Veiculo procurarVeiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
-                Veiculo veiculoCalc = new Veiculo(placaVeiculoCalc, 0, null, 0);
+                Veiculo veiculoCalc = new Veiculo(placaVeiculoCalc, 0, null, 0,0);
                 if (procurarVeiculoCalc != null) {
                     System.out.println("Informe a quilometragem atual do veículo: ");
                     double kmAtual = scanner.nextDouble();
 
                     double despesas = veiculoCalc.calculaDespesas(tipoCombustivel, tipoManutencao, kmAtual);
                     System.out.println("O custo total das despesas é: " + despesas);
+                } else {
+                    System.out.println("Veículo não encontrado. ＞﹏＜");
+                }
+                break;
+
+            case 11:
+                System.out.println("Informe a placa do veículo: ");
+                String placaVeiculoAchar = scanner.next();
+                Veiculo veiculo = frota.localizarVeiculo(placaVeiculoAchar);
+                if (veiculo != null) {
+                    double quilometragemTotal = veiculo.kmTotal();
+                    System.out
+                            .println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
                 } else {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
@@ -169,6 +268,12 @@ public class App {
         return opcao;
     }
 
+    /**
+     * Exibe o menu para seleção dos tipos de veículos.
+     *
+     * @param nomeArquivo O nome do arquivo contendo as opções dos tipos de
+     *                    veículos.
+     */
     public static void menuTiposVeiculos(String nomeArquivo) {
         limparTela();
         lerMenu(nomeArquivo);
@@ -206,6 +311,12 @@ public class App {
         }
     }
 
+    /**
+     * Exibe o menu para seleção do tipo de combustível.
+     *
+     * @param nomeArquivo O nome do arquivo contendo as opções de combustível.
+     * @return O tipo de combustível escolhido.
+     */
     public static Combustivel menuCombustivel(String nomeArquivo) {
         limparTela();
         lerMenu(nomeArquivo);
@@ -230,6 +341,12 @@ public class App {
         }
     }
 
+    /**
+     * Exibe o menu para seleção do tipo de manutenção.
+     *
+     * @param nomeArquivo O nome do arquivo contendo as opções de manutenção.
+     * @return O tipo de manutenção escolhido.
+     */
     public static Manutencao menuManutencao(String nomeArquivo) {
         limparTela();
         lerMenu(nomeArquivo);
@@ -265,6 +382,9 @@ public class App {
     public static void menuManutencaoCaminhao() {
         limparTela();
         String nomeArquivo = "menuManutencao";
+        System.out.println("==========================");
+        System.out.println("Informe a placa: ");
+        String placaCam = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
         System.out.print("Escolha o tipo de manutenção para caminhão: ");
@@ -299,6 +419,9 @@ public class App {
     public static void menuManutencaoCarro() {
         limparTela();
         String nomeArquivo = "menuManutencao";
+        System.out.println("==========================");
+        System.out.println("Informe a placa: ");
+        String placaCarro = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
         System.out.print("Escolha o tipo de manutenção para o carro: ");
@@ -333,6 +456,9 @@ public class App {
     public static void menuManutencaoFurgao() {
         limparTela();
         String nomeArquivo = "menuManutencao";
+        System.out.println("==========================");
+        System.out.println("Informe a placa: ");
+        String placaFurgao = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
         System.out.print("Escolha o tipo de manutenção para o furgão: ");
@@ -367,6 +493,9 @@ public class App {
     public static void menuManutencaoVan() {
         limparTela();
         String nomeArquivo = "menuManutencao";
+        System.out.println("==========================");
+        System.out.println("Informe a placa: ");
+        String placaVan = scanner.nextLine();
         lerMenu(nomeArquivo);
         System.out.println("==========================");
         System.out.print("Escolha o tipo de manutenção para a van: ");
@@ -398,6 +527,11 @@ public class App {
         }
     }
 
+    /**
+     * Lê o conteúdo de um arquivo e exibe na tela.
+     *
+     * @param nomeArquivo O nome do arquivo a ser lido.
+     */
     public static void lerMenu(String nomeArquivo) {
         try {
             File arquivo = new File(nomeArquivo);

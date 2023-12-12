@@ -9,6 +9,11 @@ public class Tanque {
 	private double capacidadeMaxima;
 	private double capacidadeAtual;
 
+	public Tanque(double capacidadeMaxima, double capacidadeAtual) {
+		this.capacidadeMaxima = capacidadeMaxima;
+		this.capacidadeAtual = capacidadeAtual;
+	}
+
 	public static double getCONSUMO() {
 		return CONSUMO;
 	}
