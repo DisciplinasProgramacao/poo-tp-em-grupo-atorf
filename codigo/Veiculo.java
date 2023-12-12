@@ -53,6 +53,7 @@ public class Veiculo {
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
+			tmp = true;
 			return tmp;
 		} else {
 			return tmp;
@@ -131,7 +132,6 @@ public class Veiculo {
 		}
 		return totalKmVeiculo;
 	}
-	
 
 	/**
 	 * O método irá retonar a quilometragem média do veículo.
@@ -139,11 +139,15 @@ public class Veiculo {
 	 * @return Quilometragem médida do veículo.
 	 */
 	public double kmMedia() {
-		if (quantRotas == 0) {
-			return 0;
-		} else {
-			return kmTotal() / quantRotas;
+		double totalKmVeiculo = 0;
+		int rotasValidas = 0;
+		for (Rota rota : rotas) {
+			if (rota != null) {
+				totalKmVeiculo += rota.getQuilometragem();
+				rotasValidas++;
+			}
 		}
+		return rotasValidas == 0 ? 0 : totalKmVeiculo / rotasValidas;
 	}
 
 	/**

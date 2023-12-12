@@ -49,8 +49,8 @@ public class App {
                 }
                 break;
 
-            case 3:
-                System.out.println("Digite a placa do veiculo: ");
+                case 3:
+                System.out.println("Digite a placa do veiculo:");
                 String placaVeiculoRota = scanner.nextLine();
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
@@ -59,6 +59,7 @@ public class App {
                 int mes = scanner.nextInt();
                 int ano = scanner.nextInt();
                 Data dataRota = new Data(dia, mes, ano);
+            
                 Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
                 if (veiculoExistente != null) {
                     Rota rota = new Rota(quilometragem, dataRota);
@@ -67,6 +68,7 @@ public class App {
                     System.out.println("Veículo não encontrado na frota.");
                 }
                 break;
+            
                 
 
             case 4:
