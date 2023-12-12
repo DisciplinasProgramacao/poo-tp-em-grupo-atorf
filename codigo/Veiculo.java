@@ -17,6 +17,7 @@ public class Veiculo {
 	private double totalReabastecido;
 	private double quilometragem;
 	private TipoVeiculo tipoVeiculo;
+	private Combustivel tipoCombustivel;
 
 	/**
 	 * Construtor da classe Veiculo
@@ -33,6 +34,26 @@ public class Veiculo {
 		this.rotas = new Rota[MAX_ROTAS]; // Inicializando o array rotas
 
     }
+
+	
+	public Combustivel getTipoCombustivel() {
+		return tipoCombustivel;
+	}
+
+	public void setTipoCombustivel(Combustivel tipoCombustivel) {
+		this.tipoCombustivel = tipoCombustivel;
+	}
+
+	public TipoVeiculo getTipoVeiculo() {
+		return tipoVeiculo;
+	}
+
+
+	public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
+		this.tipoVeiculo = tipoVeiculo;
+	}
+
+
 
 	/**
 	 * Método get irá retornar a placa do veículo, que posteriormente será utilizada

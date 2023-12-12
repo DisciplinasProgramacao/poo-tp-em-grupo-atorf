@@ -28,7 +28,8 @@ public class Frota {
         StringBuilder sb = new StringBuilder("\nVeiculos da Frota: ");
         sb.append("\n");
         for (Veiculo veiculo : veiculos) {
-            sb.append(veiculo.getPlaca()).append("\n");
+            sb.append(veiculo.getPlaca()).append(" : ");
+            sb.append(veiculo.getTipoVeiculo()).append("\n");
         }
         return sb.toString();
     }
