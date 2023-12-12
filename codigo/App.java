@@ -50,8 +50,8 @@ public class App {
                 break;
 
             case 3:
-            System.out.println("Digite a placa do veiculo: ");
-            String placaVeiculoRota = scanner.nextLine();
+                System.out.println("Digite a placa do veiculo: ");
+                String placaVeiculoRota = scanner.nextLine();
                 Veiculo veiculo = new Veiculo(placaVeiculoRota, opcao, null, opcao);
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
@@ -65,7 +65,11 @@ public class App {
                 break;
 
             case 4:
-                System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km.");
+                System.out.println("Placa: ");
+                String placaNova = scanner.nextLine();
+                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0);
+                frota.adicionarVeiculo(novoVeiculo);
+                System.out.println("Veiculo adicionado com sucesso.");
                 break;
 
             case 5:
@@ -89,6 +93,10 @@ public class App {
                 break;
 
             case 7:
+                System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km.");
+                break;
+
+            case 8:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
                 String procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
@@ -102,12 +110,12 @@ public class App {
                 }
                 break;
 
-            case 8:
+            case 9:
                 String nomeArqM = "menuTipoVeiculo";
                 menuManutencao(nomeArqM);
                 break;
 
-            case 9:
+            case 10:
                 String nomeArqCombustivel = "menuCombustivel";
                 Combustivel tipoCombustivel = menuCombustivel(nomeArqCombustivel);
                 if (tipoCombustivel == null) {
@@ -135,14 +143,6 @@ public class App {
                 } else {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
-                break;
-
-                case 10:
-                System.out.println("Placa: ");
-                String placaNova = scanner.nextLine();
-                Veiculo novoVeiculo = new Veiculo(placaNova, 4, null, 0);
-                frota.adicionarVeiculo(novoVeiculo);
-                System.out.println("Veiculo adicionado com sucesso.");
                 break;
 
             case 0:
