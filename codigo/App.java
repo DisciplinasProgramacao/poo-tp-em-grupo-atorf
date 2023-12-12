@@ -150,6 +150,24 @@ public class App {
                 lerMenu(arquivoLer);
                 int tipoVeiculoEscolha = scanner.nextInt();
                 TipoVeiculo tipoVeiculo;
+                Combustivel tipoCombustivel = Combustivel.GASOLINA; // Valor padrão
+
+                System.out.println("Escolha o tipo de combustível (1: Álcool, 2: Diesel, 3: Gasolina):");
+                int escolhaCombustivel = scanner.nextInt();
+                switch (escolhaCombustivel) {
+                    case 1:
+                        tipoCombustivel = Combustivel.ALCOOL;
+                        break;
+                    case 2:
+                        tipoCombustivel = Combustivel.DIESEL;
+                        break;
+                    case 3:
+                        tipoCombustivel = Combustivel.GASOLINA;
+                        break;
+                    default:
+                        System.out.println("Tipo de combustível inválido. Usando Gasolina como padrão.");
+                        break;
+                }
 
                 switch (tipoVeiculoEscolha) {
                     case 1:
@@ -169,9 +187,27 @@ public class App {
 
                 }
 
+                Manutencao manutencao;
+                switch (tipoVeiculo) {
+                    case CARRO:
+                        manutencao = new MCarro();
+                        break;
+                    case CAMINHAO:
+                        manutencao = new MCaminhao();
+                        break;
+                    case FURGAO:
+                        manutencao = new MFurgao();
+                        break;
+                    case VAN:
+                        manutencao = new MVan();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Tipo de veículo inválido.");
+                }
+
                 Tanque tanqueNovo = new Tanque(tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do tanque baseada no
                                                                                    // tipo de veículo
-                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tanqueNovo, 0, 0);
+                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo);
                 frota.adicionarVeiculo(novoVeiculo);
                 System.out.println("Veiculo adicionado com sucesso.");
                 break;
@@ -226,108 +262,114 @@ public class App {
                 Veiculo veiculoParaManutencao = frota.localizarVeiculo(placaManutencao);
 
                 if (veiculoParaManutencao != null) {
-                    String nomeArqManutencao = "menuTipoVeiculo";
-                    Manutencao tipoManutencao = menuManutencao(nomeArqManutencao);
+                    System.out.println("Informe a quilometragem atual do veículo: ");
+                    double kmAtual = scanner.nextDouble();
 
-                    if (tipoManutencao != null) {
-                        System.out.println("Informe a quilometragem atual do veículo: ");
-                        double kmAtual = scanner.nextDouble();
+                    // Verificar se a manutenção é necessária
+                    boolean necessitaManutencao = veiculoParaManutencao.getManutencao()
+                            .precisaManutencaoPeriodica(kmAtual);
+                    if (necessitaManutencao) {
+                        // Registrar a manutenção
+                        veiculoParaManutencao.getManutencao().registrarManutencaoPeriodica(kmAtual);
 
-                        double despesas = veiculoParaManutencao.calculaDespesas(Combustivel.GASOLINA, tipoManutencao,
-                                kmAtual);
-                        System.out.println("O custo total das despesas é: " + despesas);
+                        // Calcular o custo da manutenção
+                        double custoManutencao = veiculoParaManutencao.getManutencao().calcularCusto(kmAtual);
+                        System.out.println("Manutenção realizada. Custo total: " + custoManutencao);
                     } else {
-                        System.out.println("Tipo de manutenção inválido");
+                        System.out.println("Manutenção não é necessária no momento.");
                     }
                 } else {
                     System.out.println("Veículo não encontrado na frota");
                 }
                 break;
 
-            case 10:
-                String nomeArqCombustivel = "menuCombustivel";
-                lerMenu(nomeArqCombustivel);
-                int tipoCombustivelEscolhido = scanner.nextInt();
-               
-                Combustivel tipoCombustivel;
-
-                switch (tipoCombustivelEscolhido) {
-                    case 1:
-                        tipoCombustivel = Combustivel.ALCOOL;
-                        break;
-                    case 2:
-                        tipoCombustivel = Combustivel.DIESEL;
-                        break;
-                    case 3:
-                        tipoCombustivel = Combustivel.GASOLINA;
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Tipo de veículo inválido.");
-
-                }
-
-                // Combustivel tipoCombustivel = menuCombustivel(nomeArqCombustivel);
-                // if (tipoCombustivel == null) {
-                //     System.out.println("Tipo de combustível inválido");
-                //     break;
-                // }
-
-                String nomeArqManutencao = "menuTipoVeiculo";
-                lerMenu(nomeArqManutencao);
-                int tipoManutencaoEscolhido = scanner.nextInt();
-
-                Manutencao tipoManutencao;
-                switch (tipoManutencaoEscolhido) {
-                    case 1:
-                    System.out.println("KM: ");
-                    double custo = scanner.nextDouble();
-                        MCarro tipoManutencaoCa = new MCarro();
-                        tipoManutencaoCa.calcularCusto(custo);
-                        break;
-                
-                    case 2:
-                    System.out.println("KM: ");
-                    custo = scanner.nextDouble();
-                        MCaminhao tipoManutencaoC = new MCaminhao();
-                        tipoManutencaoC.calcularCusto(custo);
-                        break;
-
-                    case 3:
-                    System.out.println("KM: ");
-                     custo = scanner.nextDouble();
-                        MFurgao tipoManutencaoF = new MFurgao();
-                        tipoManutencaoF.calcularCusto(custo);
-                        break;
-
-                    case 4:
-                    System.out.println("KM: ");
-                     custo = scanner.nextDouble();
-                        MVan tipoManutencaoV = new MVan();
-                        tipoManutencaoV.calcularCusto(custo);
-                        break;
-
-                    default:
-                        break;
-                }
-                // Manutencao tipoManutencao = menuManutencao(nomeArqManutencao);
-                // if (tipoManutencao == null) {
-                //     System.out.println("Tipo de manutenção inválido");
-                //     break;
-                // }
-
-                System.out.println("Informe a placa do veículo: ");
-                String placaVeiculoCalc = scanner.next();
-                Veiculo veiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
-                if (veiculoCalc != null) {
-                    System.out.println("Informe a quilometragem atual do veículo: ");
-                    double kmAtual = scanner.nextDouble();
-
-                    double despesas = veiculoCalc.calculaDespesas(tipoCombustivel, null, kmAtual);
-                    System.out.println("O custo total das despesas é: " + despesas);
-                } else {
-                    System.out.println("Veículo não encontrado. ＞﹏＜");
-                }
-                break;
+            /*
+             * case 10:
+             * String nomeArqCombustivel = "menuCombustivel";
+             * lerMenu(nomeArqCombustivel);
+             * int tipoCombustivelEscolhido = scanner.nextInt();
+             * 
+             * Combustivel tipoCombustivel;
+             * 
+             * switch (tipoCombustivelEscolhido) {
+             * case 1:
+             * tipoCombustivel = Combustivel.ALCOOL;
+             * break;
+             * case 2:
+             * tipoCombustivel = Combustivel.DIESEL;
+             * break;
+             * case 3:
+             * tipoCombustivel = Combustivel.GASOLINA;
+             * break;
+             * default:
+             * throw new IllegalArgumentException("Tipo de veículo inválido.");
+             * 
+             * }
+             * 
+             * // Combustivel tipoCombustivel = menuCombustivel(nomeArqCombustivel);
+             * // if (tipoCombustivel == null) {
+             * // System.out.println("Tipo de combustível inválido");
+             * // break;
+             * // }
+             * 
+             * String nomeArqManutencao = "menuTipoVeiculo";
+             * lerMenu(nomeArqManutencao);
+             * int tipoManutencaoEscolhido = scanner.nextInt();
+             * 
+             * Manutencao tipoManutencao;
+             * switch (tipoManutencaoEscolhido) {
+             * case 1:
+             * System.out.println("KM: ");
+             * double custo = scanner.nextDouble();
+             * MCarro tipoManutencaoCa = new MCarro();
+             * tipoManutencaoCa.calcularCusto(custo);
+             * break;
+             * 
+             * case 2:
+             * System.out.println("KM: ");
+             * custo = scanner.nextDouble();
+             * MCaminhao tipoManutencaoC = new MCaminhao();
+             * tipoManutencaoC.calcularCusto(custo);
+             * break;
+             * 
+             * case 3:
+             * System.out.println("KM: ");
+             * custo = scanner.nextDouble();
+             * MFurgao tipoManutencaoF = new MFurgao();
+             * tipoManutencaoF.calcularCusto(custo);
+             * break;
+             * 
+             * case 4:
+             * System.out.println("KM: ");
+             * custo = scanner.nextDouble();
+             * MVan tipoManutencaoV = new MVan();
+             * tipoManutencaoV.calcularCusto(custo);
+             * break;
+             * 
+             * default:
+             * break;
+             * }
+             * // Manutencao tipoManutencao = menuManutencao(nomeArqManutencao);
+             * // if (tipoManutencao == null) {
+             * // System.out.println("Tipo de manutenção inválido");
+             * // break;
+             * // }
+             * 
+             * System.out.println("Informe a placa do veículo: ");
+             * String placaVeiculoCalc = scanner.next();
+             * Veiculo veiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
+             * if (veiculoCalc != null) {
+             * System.out.println("Informe a quilometragem atual do veículo: ");
+             * double kmAtual = scanner.nextDouble();
+             * 
+             * double despesas = veiculoCalc.calculaDespesas(tipoCombustivel, null,
+             * kmAtual);
+             * System.out.println("O custo total das despesas é: " + despesas);
+             * } else {
+             * System.out.println("Veículo não encontrado. ＞﹏＜");
+             * }
+             * break;
+             */
 
             case 11:
                 System.out.println("Informe a placa do veículo: ");

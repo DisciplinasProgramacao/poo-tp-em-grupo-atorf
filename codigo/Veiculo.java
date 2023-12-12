@@ -18,6 +18,11 @@ public class Veiculo {
 	private double quilometragem;
 	private TipoVeiculo tipoVeiculo;
 	private Combustivel tipoCombustivel;
+	public Manutencao getManutencao() {
+		return manutencao;
+	}
+
+	private Manutencao manutencao;
 
 	/**
 	 * Construtor da classe Veiculo
@@ -25,17 +30,27 @@ public class Veiculo {
 	 * @param placaNova
 	 */
 
-	 public Veiculo(String placa, TipoVeiculo tipoVeiculo, Tanque tanque, int quantRotas, double quilometragem) {
-        this.placa = placa;
-        this.tipoVeiculo = tipoVeiculo;
-        this.tanque = tanque;
-        this.quantRotas = quantRotas;
-        this.quilometragem = quilometragem;
+	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Tanque tanque, int quantRotas, double quilometragem) {
+		this.placa = placa;
+		this.tipoVeiculo = tipoVeiculo;
+		this.tanque = tanque;
+		this.quantRotas = quantRotas;
+		this.quilometragem = quilometragem;
 		this.rotas = new Rota[MAX_ROTAS]; // Inicializando o array rotas
 
-    }
+	}
 
-	
+	// Construtor que aceita um tipo específico de Manutencao
+	public Veiculo(String placa, TipoVeiculo tipoVeiculo, Combustivel tipoCombustivel, Manutencao manutencao, Tanque tanque) {
+		this.placa = placa;
+		this.tipoVeiculo = tipoVeiculo;
+		this.tanque = tanque;
+		this.rotas = new Rota[MAX_ROTAS];
+		this.tipoCombustivel = tipoCombustivel;
+		this.manutencao = manutencao;
+		this.tanque = tanque;
+	}
+
 	public Combustivel getTipoCombustivel() {
 		return tipoCombustivel;
 	}
@@ -48,12 +63,9 @@ public class Veiculo {
 		return tipoVeiculo;
 	}
 
-
 	public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
 		this.tipoVeiculo = tipoVeiculo;
 	}
-
-
 
 	/**
 	 * Método get irá retornar a placa do veículo, que posteriormente será utilizada
@@ -159,8 +171,6 @@ public class Veiculo {
 		}
 		return totalKmVeiculo;
 	}
-	
-	
 
 	/**
 	 * O método irá retonar a quilometragem média do veículo.
@@ -179,7 +189,6 @@ public class Veiculo {
 		}
 		return rotasValidas > 0 ? totalKmVeiculo / rotasValidas : 0;
 	}
-	
 
 	/**
 	 * Irá passar como parâmetro uma rota e essa será percorrida caso o limite não
@@ -209,38 +218,35 @@ public class Veiculo {
 	 *         manutenção
 	 */
 
-	public double calculaDespesas(Combustivel tipoCombustivel, Manutencao tipoManutencao, double kmAtual) {
-		double custoCombustivel = tipoCombustivel.getPrecoLitro();
+	 public double calculaDespesas(Combustivel tipoCombustivel, Manutencao tipoManutencao, double kmAtual) {
+        double custoCombustivel = calculaCustoCombustivel(tipoCombustivel, kmAtual);
+        double custoManutencao = tipoManutencao != null ? tipoManutencao.calcularCusto(kmAtual) : 0;
 
-		double consumoMedio = tipoCombustivel.getConsumoMedio();
-		double quantidadeCombustivel = kmAtual / consumoMedio;
-		double custoTotalCombustivel = quantidadeCombustivel * custoCombustivel;
-
-		double custoManutencao = tipoManutencao.calcularCusto(kmAtual);
-
-		double custoTotal = custoTotalCombustivel + custoManutencao;
-
-		return custoTotal;
-
-	}
-
-	/**
-     * Verifica se é possível abastecer a quantidade especificada de combustível.
-     *
-     * @param litrosAbastecimento a quantidade de combustível a ser abastecida.
-     * @return true se for possível abastecer essa quantidade, false caso contrário.
-     */
-    public boolean podeAbastecer(double litrosAbastecimento) {
-        return tanque.getCapacidadeAtual() + litrosAbastecimento <= tanque.getCapacidadeMaxima();
+        return custoCombustivel + custoManutencao;
     }
 
+    private double calculaCustoCombustivel(Combustivel tipoCombustivel, double kmAtual) {
+        double consumoMedio = tipoCombustivel.getConsumoMedio();
+        double quantidadeCombustivel = kmAtual / consumoMedio;
+        double precoPorLitro = tipoCombustivel.getPrecoLitro();
+        return quantidadeCombustivel * precoPorLitro;
+    }
 
+	/**
+	 * Verifica se é possível abastecer a quantidade especificada de combustível.
+	 *
+	 * @param litrosAbastecimento a quantidade de combustível a ser abastecida.
+	 * @return true se for possível abastecer essa quantidade, false caso contrário.
+	 */
+	public boolean podeAbastecer(double litrosAbastecimento) {
+		return tanque.getCapacidadeAtual() + litrosAbastecimento <= tanque.getCapacidadeMaxima();
+	}
 
 	@Override
 	public String toString() {
 		return "Veiculo{" +
 				"placa='" + placa + '\'' +
-				", quilometragem=" +kmTotal() +
+				", quilometragem=" + kmTotal() +
 				'}';
 	}
 

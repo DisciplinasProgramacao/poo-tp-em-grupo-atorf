@@ -3,7 +3,6 @@ package codigo;
 import java.io.*;
 import java.util.*;
 
-
 public class MCaminhao implements Manutencao {
     private static final double KM_MANUTENCAO_PERIODICA = 20000;
     private static final double KM_TROCA_PNEUS = 20000;
@@ -34,14 +33,19 @@ public class MCaminhao implements Manutencao {
 
     @Override
     public double calcularCusto(double kmAtual) {
-        double custoManutencao = 0;
+        double custoTotal = 0;
 
-        if(kmAtual >= KM_MANUTENCAO_PERIODICA){
-            custoManutencao += VALOR_PERIODICA;
-        } else if(kmAtual >= KM_TROCA_PNEUS){
-            custoManutencao += VALOR_TROCA_PNEU;
+        // Calcular custo de manutenção periódica
+        if (kmAtual - kmUltimaManutencaoPeriodica >= KM_MANUTENCAO_PERIODICA) {
+            custoTotal += VALOR_PERIODICA;
         }
 
-        return custoManutencao;
+        // Calcular custo de troca de pneus
+        if (kmAtual - kmUltimaTrocaPneus >= KM_TROCA_PNEUS) {
+            custoTotal += VALOR_TROCA_PNEU;
+        }
+
+        return custoTotal;
     }
+
 }
