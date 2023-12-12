@@ -38,13 +38,13 @@ public class Frota {
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo encontrado ou null se não for encontrado.
      */
-    public String localizarVeiculo(String placa) {
+    public Veiculo localizarVeiculo(String placa) {
         for (Veiculo veiculo : veiculos) {
             if (veiculo != null && veiculo.getPlaca().equals(placa)) {
-                return "Existe na frota";
+                return veiculo;
             }
         }
-        return "Não existe na frota";
+        return null;
     }
 
     /**

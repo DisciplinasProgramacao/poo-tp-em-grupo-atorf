@@ -18,17 +18,17 @@ public class Veiculo {
 
 	/**
 	 * Construtor da classe Veiculo
+	 * 
 	 * @param placaNova
 	 */
 
-	 public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido) {
+	public Veiculo(String placa, int quantRotas, Tanque tanque, double totalReabastecido) {
 		this.placa = placa;
 		this.quantRotas = quantRotas;
 		this.tanque = tanque;
 		this.totalReabastecido = totalReabastecido;
 		this.rotas = new Rota[quantRotas];
 	}
-	
 
 	/**
 	 * Método get irá retornar a placa do veículo, que posteriormente será utilizada
@@ -125,10 +125,13 @@ public class Veiculo {
 	public double kmTotal() {
 		double totalKmVeiculo = 0;
 		for (Rota rota : rotas) {
-			totalKmVeiculo += rota.getQuilometragem();
+			if (rota != null) {
+				totalKmVeiculo += rota.getQuilometragem();
+			}
 		}
 		return totalKmVeiculo;
 	}
+	
 
 	/**
 	 * O método irá retonar a quilometragem média do veículo.
@@ -174,16 +177,24 @@ public class Veiculo {
 	public double calculaDespesas(Combustivel tipoCombustivel, Manutencao tipoManutencao, double kmAtual) {
 		double custoCombustivel = tipoCombustivel.getPrecoLitro();
 
-        double consumoMedio = tipoCombustivel.getConsumoMedio();
-        double quantidadeCombustivel = kmAtual / consumoMedio;
-        double custoTotalCombustivel = quantidadeCombustivel * custoCombustivel;
+		double consumoMedio = tipoCombustivel.getConsumoMedio();
+		double quantidadeCombustivel = kmAtual / consumoMedio;
+		double custoTotalCombustivel = quantidadeCombustivel * custoCombustivel;
 
-        double custoManutencao = tipoManutencao.calcularCusto(kmAtual);
+		double custoManutencao = tipoManutencao.calcularCusto(kmAtual);
 
-        double custoTotal = custoTotalCombustivel + custoManutencao;
+		double custoTotal = custoTotalCombustivel + custoManutencao;
 
-        return custoTotal;
-		
+		return custoTotal;
+
+	}
+
+	@Override
+	public String toString() {
+		return "Veiculo{" +
+				"placa='" + placa + '\'' +
+				", quilometragem=" +kmTotal() +
+				'}';
 	}
 
 }

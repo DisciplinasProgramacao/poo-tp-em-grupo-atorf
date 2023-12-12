@@ -41,7 +41,7 @@ public class App {
             case 2:
                 System.out.println("Digite a placa: ");
                 String placa = scanner.next();
-                String veiculoEncontrado = frota.localizarVeiculo(placa);
+                Veiculo veiculoEncontrado = frota.localizarVeiculo(placa);
                 if (veiculoEncontrado != null) {
                     System.out.println("Veículo encontrado:\n" + veiculoEncontrado.toString());
                 } else {
@@ -52,7 +52,6 @@ public class App {
             case 3:
                 System.out.println("Digite a placa do veiculo: ");
                 String placaVeiculoRota = scanner.nextLine();
-                Veiculo veiculo = new Veiculo(placaVeiculoRota, opcao, null, opcao);
                 System.out.println("Escreva a Quilometragem:");
                 double quilometragem = scanner.nextDouble();
                 System.out.println("Escreva a Data:");
@@ -60,9 +59,15 @@ public class App {
                 int mes = scanner.nextInt();
                 int ano = scanner.nextInt();
                 Data dataRota = new Data(dia, mes, ano);
-                Rota rota = new Rota(quilometragem, dataRota);
-                veiculo.addRota(rota);
+                Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
+                if (veiculoExistente != null) {
+                    Rota rota = new Rota(quilometragem, dataRota);
+                    veiculoExistente.addRota(rota);
+                } else {
+                    System.out.println("Veículo não encontrado na frota.");
+                }
                 break;
+                
 
             case 4:
                 System.out.println("Placa: ");
@@ -99,7 +104,7 @@ public class App {
             case 8:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
-                String procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
+                Veiculo procurarVeiculo = frota.localizarVeiculo(placaVeiculo);
                 Veiculo veiculoParaAbastecer = new Veiculo(placaVeiculo, 0, null, 0);
                 if (procurarVeiculo != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
@@ -132,7 +137,7 @@ public class App {
 
                 System.out.println("Informe a placa do veículo: ");
                 String placaVeiculoCalc = scanner.next();
-                String procurarVeiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
+                Veiculo procurarVeiculoCalc = frota.localizarVeiculo(placaVeiculoCalc);
                 Veiculo veiculoCalc = new Veiculo(placaVeiculoCalc, 0, null, 0);
                 if (procurarVeiculoCalc != null) {
                     System.out.println("Informe a quilometragem atual do veículo: ");
