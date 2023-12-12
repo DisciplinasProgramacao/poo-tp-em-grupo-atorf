@@ -42,12 +42,13 @@ public class Frota {
      */
     public Veiculo localizarVeiculo(String placa) {
         for (Veiculo veiculo : veiculos) {
-            if (veiculo != null && veiculo.getPlaca().equals(placa)) {
+            if (veiculo != null && veiculo.getPlaca() != null && veiculo.getPlaca().equals(placa)) {
                 return veiculo;
             }
         }
         return null;
     }
+    
     
 
     /**

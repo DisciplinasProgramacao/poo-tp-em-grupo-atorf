@@ -51,6 +51,9 @@ public class Veiculo {
 		this.tanque = tanque;
 	}
 
+	public Veiculo(String placa2, TipoVeiculo tipoVeiculo2, Tanque tq, Manutencao manutencao2) {
+	}
+
 	public Combustivel getTipoCombustivel() {
 		return tipoCombustivel;
 	}

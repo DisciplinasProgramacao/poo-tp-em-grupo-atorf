@@ -57,8 +57,26 @@ public class App {
 
                 Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
                 TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
+                Combustivel tipoCombustivel = Combustivel.GASOLINA; // Defina um valor padrão
 
-                Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tq, quantRotas, quilometragem);
+                Manutencao manutencao = null;
+
+                switch (tipoVeiculo) {
+                    case CAMINHAO:
+                        manutencao = new MCaminhao();
+                        break;
+                    case CARRO:
+                        manutencao = new MCarro();
+                        break;
+                    case FURGAO:
+                        manutencao = new MFurgao();
+                        break;
+                    case VAN:
+                        manutencao = new MVan();
+                        break;
+                    // Adicione mais casos conforme necessário
+                }
+                Veiculo novoVeiculo = new Veiculo(placa, tipoVeiculo, tipoCombustivel, manutencao, tq);
                 frota.adicionarVeiculo(novoVeiculo);
             }
 
