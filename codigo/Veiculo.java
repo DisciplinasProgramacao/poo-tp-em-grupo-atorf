@@ -65,6 +65,10 @@ public class Veiculo {
 		this.tanque = tanque;
 	}
 
+	public Rota[] getRotas() {
+		return rotas;
+	}
+
 	/**
 	 * Define a quilometragem total do veículo.
 	 *
@@ -214,17 +218,18 @@ public class Veiculo {
 	 * @return Quilometragem médida do veículo.
 	 */
 
-	public double kmMedia() {
-		double totalKmVeiculo = 0;
-		int rotasValidas = 0;
-		for (Rota rota : rotas) {
-			if (rota != null) {
-				totalKmVeiculo += rota.getQuilometragem();
-				rotasValidas++;
-			}
+	 public double kmMedia() {
+		double kmTotal = this.kmTotal();
+		int totalRotas = this.quantRotas;
+	
+		if (totalRotas == 0) {
+			return 0; // Evita divisão por zero
 		}
-		return rotasValidas > 0 ? totalKmVeiculo / rotasValidas : 0;
+	
+		return kmTotal / totalRotas;
 	}
+	
+	
 
 	/**
 	 * Irá passar como parâmetro uma rota e essa será percorrida caso o limite não
@@ -322,3 +327,5 @@ public class Veiculo {
 	}
 
 }
+
+

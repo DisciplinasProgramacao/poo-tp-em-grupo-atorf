@@ -112,7 +112,7 @@ public class Frota {
 
         for (Veiculo veiculo : veiculos) {
             if (veiculo != null) {
-                double kmMediaAtual = veiculo.getQuilometragem(); // Assumindo que kmMedia() será implementada na Classe
+                double kmMediaAtual = veiculo.kmMedia(); // Assumindo que kmMedia() será implementada na Classe
                                                                   // Veiculo
 
                 if (maiorMedia == null || kmMediaAtual > maiorKmMedia) {
