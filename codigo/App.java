@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class App {
     static Scanner scanner = new Scanner(System.in);
-    static Frota frota = new Frota(20);
+    static Frota frota = new Frota(200);
 
     /**
      * Limpa a tela do console.
@@ -177,29 +177,42 @@ public class App {
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculoRota = scanner.next();
                 System.out.print("Escreva a Quilometragem: ");
-                double quilometragem = scanner.nextDouble();
-                scanner.nextLine();
+                try {
+                    double quilometragem = scanner.nextDouble();
+                    scanner.nextLine(); 
 
-                System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
-                String dataInput = scanner.next();
-                String[] dataSplit = dataInput.split("/");
-                int dia = Integer.parseInt(dataSplit[0]);
-                int mes = Integer.parseInt(dataSplit[1]);
-                int ano = Integer.parseInt(dataSplit[2]);
+                    System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
+                    try {
+                        String dataInput = scanner.next();
+                        String[] dataSplit = dataInput.split("/");
+                        int dia = Integer.parseInt(dataSplit[0]);
+                        int mes = Integer.parseInt(dataSplit[1]);
+                        int ano = Integer.parseInt(dataSplit[2]);
 
-                Data dataRota = new Data(dia, mes, ano);
+                        Data dataRota = new Data(dia, mes, ano);
 
-                Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
-                if (veiculoExistente != null) {
-                    Rota rota = new Rota(quilometragem, dataRota);
-                    if (!veiculoExistente.addRota(rota)) {
-                        System.out.println(
-                                "Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
-                    } else {
-                        System.out.println("Rota adicionada com sucesso");
+                        Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
+                        if (veiculoExistente != null) {
+                            Rota rota = new Rota(quilometragem, dataRota);
+                            if (veiculoExistente.addRota(rota) == null) {
+                                System.out.println(
+                                        veiculoExistente.addRota(rota));
+                            } else {
+                                System.out.println(veiculoExistente.addRota(rota));
+                            }
+                        } else {
+                            System.out.println("Veículo não encontrado na frota.");
+                        }
+                    } catch (NumberFormatException e) {
+                        scanner.nextLine();
+                        System.out.println("Formato de data inválido. Use o formato DD/MM/AAAA.");
+                        return 1;
                     }
-                } else {
-                    System.out.println("Veículo não encontrado na frota.");
+
+                } catch (java.util.InputMismatchException e) {
+                    scanner.nextLine();
+                    System.out.println("Quilometragem inválida, digite um número válido!");
+                    return 1;
                 }
 
                 break;
@@ -211,7 +224,7 @@ public class App {
                 lerMenu(arquivoLer);
                 int tipoVeiculoEscolha = scanner.nextInt();
                 TipoVeiculo tipoVeiculo;
-                Combustivel tipoCombustivel = Combustivel.GASOLINA;
+                Combustivel tipoCombustivel = null;
 
                 String arqLerComb = "menuCombustivel";
                 lerMenu(arqLerComb);
@@ -227,7 +240,7 @@ public class App {
                         tipoCombustivel = Combustivel.GASOLINA;
                         break;
                     default:
-                        System.out.println("Tipo de combustível inválido. Usando Gasolina como padrão.");
+                        System.out.println("Tipo de combustível inválido.");
                         break;
                 }
 
@@ -245,7 +258,8 @@ public class App {
                         tipoVeiculo = TipoVeiculo.VAN;
                         break;
                     default:
-                        throw new IllegalArgumentException("Tipo de veículo inválido.");
+                       System.out.println("Tipo de veículo inválido.");
+                       return 1;
 
                 }
 
@@ -264,11 +278,12 @@ public class App {
                         manutencao = new MVan();
                         break;
                     default:
-                        throw new IllegalArgumentException("Tipo de veículo inválido.");
+                          System.out.println("Tipo de veículo inválido.");
+                       return 1;
                 }
 
                 Veiculo veiculoJaExiste = frota.localizarVeiculo(placaNova);
-                if (veiculoJaExiste == null) {
+                if (veiculoJaExiste == null && tipoCombustivel != null) {
                     Tanque tanqueNovo = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do
                                                                                                         // tanque
                                                                                                         // baseada no
@@ -278,7 +293,7 @@ public class App {
                     frota.adicionarVeiculo(novoVeiculo);
                     System.out.println("Veiculo adicionado com sucesso.");
                 } else {
-                    System.out.println("Veiculo já cadastrado na frota.");
+                    System.out.println("Erro ao cadastrar na frota.");
                 }
                 break;
 

@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Veiculo {
 
-	private static int MAX_ROTAS = 10;
+	private static int MAX_ROTAS = 50;
 	private static double CONSUMO;
 	private String placa;
 	private Rota[] rotas;
@@ -18,7 +18,8 @@ public class Veiculo {
 	private Tanque tanque;
 	private double quilometragem;
 	private TipoVeiculo tipoVeiculo;
-	
+	private Combustivel tipCombustivel;
+
 	private Manutencao manutencao;
 
 	/**
@@ -35,6 +36,7 @@ public class Veiculo {
 		this.manutencao = manutencao;
 		this.tanque = tanque;
 		this.quilometragem = quilometragem;
+		this.tipCombustivel = tipoCombustivel;
 	}
 
 	/**
@@ -96,21 +98,46 @@ public class Veiculo {
 
 	/**
 	 * Adiciona uma nova rota ao veículo.
-	 * Atualiza a quilometragem total do veículo com base na rota adicionada.
+	 * Atualiza a quilometragem total do veículo com base na rota adicionada. Além
+	 * disso, esse metodo irá calcular se foi preciso abastecer o veiculo durante a
+	 * rota e ele retorna o valor que foi gasto.
 	 *
 	 * @param rota A rota a ser adicionada.
-	 * @return True se a rota foi adicionada, ou false caso o limite de rotas seja
-	 *         atingido.
+	 * @return String informando se a rota foi adicionada corretamente e, caso
+	 *         necessário, quanto foi gasto para abastecer o veiculo.
 	 */
 
-	public boolean addRota(Rota rota) {
+	public String addRota(Rota rota) {
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
-			atualizarQuilometragem(rota.getQuilometragem()); // Atualiza a quilometragem total
-			return true;
+			double quilometragemPercorrida = rota.getQuilometragem();
+			double consumo = tanque.getTipoCombustivel().getConsumoMedio() * quilometragemPercorrida;
+
+			StringBuilder sb = new StringBuilder();
+
+			// Verifica se há combustível suficiente para percorrer a rota
+			if (consumo > tanque.getCapacidadeAtual()) {
+				double litrosNecessarios = consumo - tanque.getCapacidadeAtual(); // Calcula a quantidade de combustivel
+																					// necessaria para completar a rota
+				double precoLitro = tanque.getTipoCombustivel().getPrecoLitro();
+				double custoAbastecimento = litrosNecessarios * precoLitro;
+
+				tanque.abastecer(litrosNecessarios); // Abastecendo o veiculo automaticamente
+
+				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() + litrosNecessarios); // Atualizando a capacidade
+																							// do tanque
+
+				sb.append("Abastecimento automático realizado para percorrer a rota. Gasto: R$ ")
+						.append(custoAbastecimento); // Aviso de abastecimento automático e gasto
+			}
+
+			// Atualiza a capacidade do tanque após percorrer a rota
+			tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() - consumo);
+
+			return sb.toString();
 		} else {
-			return false;
+			return "Limite de rotas atingido.";
 		}
 	}
 
@@ -144,7 +171,7 @@ public class Veiculo {
 	public String abastecer(double litrosAbastecimento) {
 		Tanque tanqueVeiculo = this.tanque;
 		return tanqueVeiculo.abastecer(litrosAbastecimento).toString();
-	}	
+	}
 
 	/**
 	 * Esse método irá retornar a quilometragem percorrida no mês atual.
@@ -230,14 +257,14 @@ public class Veiculo {
 		return custoCombustivel + custoManutencao;
 	}
 
-	public String relatorioDespesas(){
+	public String relatorioDespesas() {
 		StringBuilder sb = new StringBuilder("Relatorio de despesas do veiculo " + getPlaca());
-		
+
 		double precoCombustivel = tanque.getTipoCombustivel().getPrecoLitro();
 		double consumoCombustivel = tanque.getTipoCombustivel().getConsumoMedio();
 		double custoCombustivel = (this.quilometragem / consumoCombustivel) * precoCombustivel;
 		double custoManutencao = this.manutencao.calcularCusto(this.quilometragem);
-		
+
 		sb.append("\nCusto com combustivel: " + custoCombustivel);
 		sb.append("\nCusto com manutenção: " + custoManutencao);
 		return sb.toString();
@@ -291,7 +318,7 @@ public class Veiculo {
 		return getTipoVeiculo() + " \nPortador da placa" +
 				": " + placa + '\n' +
 				"Quilometragem: " + getQuilometragem() + "km "
-				+ "\nTanque: "+ tanque.getCapacidadeAtual() + "L";
+				+ "\nTanque: " + tanque.getCapacidadeAtual() + "L";
 	}
 
 }
