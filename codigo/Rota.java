@@ -18,8 +18,14 @@ public class Rota {
      * @param data          A data em que a rota foi realizada.
      */
     public Rota(double quilometragem, Data data) {
-        this.quilometragem = quilometragem;
-        this.data = data;
+        if (quilometragem<3000){
+            this.quilometragem = quilometragem;
+            this.data = data;
+            System.out.println("Rota adicionada com sucesso!");
+
+        } else {
+            System.out.println("Rota inválida!");
+        }
     }
 
     /**

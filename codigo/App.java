@@ -147,8 +147,14 @@ public class App {
         lerMenu(nomeArquivo);
         System.out.println("==========================");
         System.out.print("Escolha uma opção: ");
-        int opcao = scanner.nextInt();
-        scanner.nextLine();
+        int opcao;
+        try {
+            opcao = scanner.nextInt();
+        } catch (java.util.InputMismatchException e) {
+            scanner.nextLine(); 
+            System.out.println("Opção inválida, Coloque uma opção válida!!");
+            return 1;
+        }
 
         switch (opcao) {
             case 1:
@@ -168,13 +174,13 @@ public class App {
 
             case 3:
                 System.out.print("Digite a placa do veículo: ");
-                String placaVeiculoRota = scanner.nextLine();
+                String placaVeiculoRota = scanner.next();
                 System.out.print("Escreva a Quilometragem: ");
                 double quilometragem = scanner.nextDouble();
                 scanner.nextLine();
 
                 System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
-                String dataInput = scanner.nextLine();
+                String dataInput = scanner.next();
                 String[] dataSplit = dataInput.split("/");
                 int dia = Integer.parseInt(dataSplit[0]);
                 int mes = Integer.parseInt(dataSplit[1]);
@@ -188,8 +194,6 @@ public class App {
                     if (!veiculoExistente.addRota(rota)) {
                         System.out.println(
                                 "Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
-                    } else {
-                        System.out.println("Rota adicionada com sucesso ao veículo " + placaVeiculoRota);
                     }
                 } else {
                     System.out.println("Veículo não encontrado na frota.");
@@ -198,7 +202,7 @@ public class App {
 
             case 4:
                 System.out.print("Placa: ");
-                String placaNova = scanner.nextLine();
+                String placaNova = scanner.next();
                 String arquivoLer = "menuTipoVeiculo";
                 lerMenu(arquivoLer);
                 int tipoVeiculoEscolha = scanner.nextInt();
@@ -310,7 +314,7 @@ public class App {
 
             case 9:
                 System.out.print("Digite a placa do veículo: ");
-                String placa2 = scanner.nextLine();
+                String placa2 = scanner.next();
                 Veiculo veiculo = frota.localizarVeiculo(placa2);
                 if (veiculo != null) {
                     System.out.println(veiculo.getManutencao().informarManutencao());
@@ -321,7 +325,7 @@ public class App {
 
             case 10:
                 System.out.print("Digite a placa do veículo: ");
-                String placa3 = scanner.nextLine();
+                String placa3 = scanner.next();
                 Veiculo veiculo2 = frota.localizarVeiculo(placa3);
                 if (veiculo2 != null) {
                     double despesaTotal = veiculo2.calcularDespesaTotal();
