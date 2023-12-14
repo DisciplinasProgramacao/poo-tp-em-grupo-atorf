@@ -45,6 +45,10 @@ public class Tanque {
 		return tipoCombustivel;
 	}
 
+	public void setCapacidadeAtual(double capacidadeAtual) {
+		this.capacidadeAtual = capacidadeAtual;
+	}
+
 	public void setTipoCombustivel(Combustivel tipoCombustivel) {
 		this.tipoCombustivel = tipoCombustivel;
 	}
@@ -101,16 +105,19 @@ public class Tanque {
 	 * @return A nova capacidade atual do tanque após o abastecimento.
 	 */
 	
-	public String abastecer(double litrosAbastecimento) {
+	 public String abastecer(double litrosAbastecimento) {
 		StringBuilder sb = new StringBuilder();
-		if (podeAbastecer(litrosAbastecimento)) {
-			capacidadeAtual += litrosAbastecimento;
+		double capacidadeTotal = capacidadeAtual + litrosAbastecimento;
+	
+		if (capacidadeTotal <= capacidadeMaxima) {
+			capacidadeAtual = capacidadeTotal;
 			sb.append("Abastecimento realizado com sucesso!");
 		} else {
 			sb.append("Quantidade de litros excede a capacidade do tanque ou é inválida.");
 		}
 		return sb.toString();
 	}
+	
 
 	/**
 	 * Registra um abastecimento no histórico, incluindo a quantidade de litros e o

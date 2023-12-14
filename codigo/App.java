@@ -78,9 +78,9 @@ public class App {
                     double quilometragem = Double.parseDouble(dados[5]);
                     Combustivel tipoCombustivel = Combustivel.valueOf(dados[7]); // Lendo o tipo de combustível
 
-                    Tanque tq = new Tanque(tipoCombustivel, capacidadeTanque, totalReabastecido);
-                    tq.gerarLitrosAleatorios();
                     TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
+                    Tanque tq = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), totalReabastecido);
+                    tq.setCapacidadeAtual(totalReabastecido);
                     Manutencao manutencao = null;
 
                     switch (tipoVeiculo) {
@@ -211,7 +211,7 @@ public class App {
                 lerMenu(arquivoLer);
                 int tipoVeiculoEscolha = scanner.nextInt();
                 TipoVeiculo tipoVeiculo;
-                Combustivel tipoCombustivel = Combustivel.GASOLINA; 
+                Combustivel tipoCombustivel = Combustivel.GASOLINA;
 
                 String arqLerComb = "menuCombustivel";
                 lerMenu(arqLerComb);
@@ -268,14 +268,16 @@ public class App {
                 }
 
                 Veiculo veiculoJaExiste = frota.localizarVeiculo(placaNova);
-                if(veiculoJaExiste == null){
-                Tanque tanqueNovo = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do
-                                                                                                    // tanque baseada no
-                // tipo de veículo
-                Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo, 0);
-                frota.adicionarVeiculo(novoVeiculo);
-                System.out.println("Veiculo adicionado com sucesso.");
-                } else{
+                if (veiculoJaExiste == null) {
+                    Tanque tanqueNovo = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do
+                                                                                                        // tanque
+                                                                                                        // baseada no
+                    // tipo de veículo
+                    Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo,
+                            0);
+                    frota.adicionarVeiculo(novoVeiculo);
+                    System.out.println("Veiculo adicionado com sucesso.");
+                } else {
                     System.out.println("Veiculo já cadastrado na frota.");
                 }
                 break;
@@ -304,7 +306,7 @@ public class App {
                 System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km.");
                 break;
 
-                case 8:
+            case 8:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
                 Veiculo veiculoParaAbastecer = frota.localizarVeiculo(placaVeiculo);
@@ -317,7 +319,6 @@ public class App {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
                 break;
-            
 
             case 9:
                 System.out.print("Digite a placa do veículo: ");
