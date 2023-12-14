@@ -78,7 +78,7 @@ public class App {
                     double quilometragem = Double.parseDouble(dados[5]);
                     Combustivel tipoCombustivel = Combustivel.valueOf(dados[7]); // Lendo o tipo de combustível
 
-                    Tanque tq = new Tanque(capacidadeTanque, totalReabastecido);
+                    Tanque tq = new Tanque(tipoCombustivel, capacidadeTanque, totalReabastecido);
                     TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
                     Manutencao manutencao = null;
 
@@ -151,7 +151,7 @@ public class App {
         try {
             opcao = scanner.nextInt();
         } catch (java.util.InputMismatchException e) {
-            scanner.nextLine(); 
+            scanner.nextLine();
             System.out.println("Opção inválida, Coloque uma opção válida!!");
             return 1;
         }
@@ -194,10 +194,13 @@ public class App {
                     if (!veiculoExistente.addRota(rota)) {
                         System.out.println(
                                 "Erro: Não foi possível adicionar a rota. Verifique o limite de rotas do veículo.");
+                    } else {
+                        System.out.println("Rota adicionada com sucesso");
                     }
                 } else {
                     System.out.println("Veículo não encontrado na frota.");
                 }
+
                 break;
 
             case 4:
@@ -207,10 +210,10 @@ public class App {
                 lerMenu(arquivoLer);
                 int tipoVeiculoEscolha = scanner.nextInt();
                 TipoVeiculo tipoVeiculo;
-                Combustivel tipoCombustivel = Combustivel.GASOLINA; // Valor padrão
+                Combustivel tipoCombustivel = Combustivel.GASOLINA; 
 
-               String arqLerComb = "menuCombustivel";
-               lerMenu(arqLerComb);
+                String arqLerComb = "menuCombustivel";
+                lerMenu(arqLerComb);
                 int escolhaCombustivel = scanner.nextInt();
                 switch (escolhaCombustivel) {
                     case 1:
@@ -263,11 +266,17 @@ public class App {
                         throw new IllegalArgumentException("Tipo de veículo inválido.");
                 }
 
-                Tanque tanqueNovo = new Tanque(tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do tanque baseada no
-                                                                                   // tipo de veículo
+                Veiculo veiculoJaExiste = frota.localizarVeiculo(placaNova);
+                if(veiculoJaExiste == null){
+                Tanque tanqueNovo = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), 0); // Capacidade do
+                                                                                                    // tanque baseada no
+                // tipo de veículo
                 Veiculo novoVeiculo = new Veiculo(placaNova, tipoVeiculo, tipoCombustivel, manutencao, tanqueNovo, 0);
                 frota.adicionarVeiculo(novoVeiculo);
                 System.out.println("Veiculo adicionado com sucesso.");
+                } else{
+                    System.out.println("Veiculo já cadastrado na frota.");
+                }
                 break;
 
             case 5:
@@ -330,6 +339,7 @@ public class App {
                 if (veiculo2 != null) {
                     double despesaTotal = veiculo2.calcularDespesaTotal();
                     System.out.println("Despesa total do veículo: " + despesaTotal);
+                    System.out.println(veiculo2.relatorioDespesas());
                 } else {
                     System.out.println("Veículo não encontrado.");
                 }
@@ -432,8 +442,6 @@ public class App {
                 return null;
         }
     }
-
-   
 
     /**
      * Lê o conteúdo de um arquivo e exibe na tela.

@@ -18,13 +18,14 @@ public class Rota {
      * @param data          A data em que a rota foi realizada.
      */
     public Rota(double quilometragem, Data data) {
-        if (quilometragem<3000){
+        StringBuilder sb = new StringBuilder();
+        if (quilometragem<25000){
             this.quilometragem = quilometragem;
             this.data = data;
-            System.out.println("Rota adicionada com sucesso!");
+            sb.append("Rota adicionada com sucesso!");
 
         } else {
-            System.out.println("Rota inválida!");
+            sb.append("Rota inválida!");
         }
     }
 

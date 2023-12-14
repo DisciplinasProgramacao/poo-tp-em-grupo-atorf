@@ -11,8 +11,10 @@ import java.util.*;
 public class Tanque {
 
 	private static double CONSUMO;
+	private Combustivel tipoCombustivel;
 	private double capacidadeMaxima;
 	private double capacidadeAtual;
+	private double totalReabastecido;
 	private List<Abastecimento> historicoAbastecimentos;
 
 	/**
@@ -21,7 +23,8 @@ public class Tanque {
 	 * @param capacidadeMaxima A capacidade máxima do tanque.
 	 * @param capacidadeAtual  A capacidade atual do tanque.
 	 */
-	public Tanque(double capacidadeMaxima, double capacidadeAtual) {
+	public Tanque(Combustivel tipoCombustivel, double capacidadeMaxima, double capacidadeAtual) {
+		this.tipoCombustivel = tipoCombustivel;
 		this.capacidadeMaxima = capacidadeMaxima;
 		this.capacidadeAtual = capacidadeAtual;
 	}
@@ -38,19 +41,12 @@ public class Tanque {
 		return capacidadeAtual;
 	}
 
-	/**
-	 * Abastece o tanque com uma quantidade especificada de litros de combustível.
-	 * Se a quantidade de litros exceder a capacidade máxima do tanque, o
-	 * abastecimento não é realizado.
-	 *
-	 * @param litros A quantidade de combustível a ser adicionada ao tanque.
-	 * @return A nova capacidade atual do tanque após o abastecimento.
-	 */
-	public double abastecer(double litros) {
-		if (capacidadeAtual + litros <= capacidadeMaxima) {
-			capacidadeAtual += litros; // Atualizando a capacidade atual do tanque
-		}
-		return capacidadeAtual;
+	public Combustivel getTipoCombustivel() {
+		return tipoCombustivel;
+	}
+
+	public void setTipoCombustivel(Combustivel tipoCombustivel) {
+		this.tipoCombustivel = tipoCombustivel;
 	}
 
 	/**
@@ -73,6 +69,35 @@ public class Tanque {
 	public double autonomiaAtual() {
 		double autonomiaAtual = capacidadeAtual / CONSUMO;
 		return autonomiaAtual;
+	}
+
+		/**
+	 * Verifica se é possível abastecer a quantidade especificada de combustível no
+	 * tanque do veículo.
+	 *
+	 * @param litrosAbastecimento A quantidade de combustível a ser abastecida.
+	 * @return true se for possível abastecer essa quantidade, false caso contrário.
+	 */
+	public boolean podeAbastecer(double litrosAbastecimento) {
+		return capacidadeAtual + litrosAbastecimento <= capacidadeMaxima;
+	}
+
+
+	/**
+	 * Abastece o tanque com uma quantidade especificada de litros de combustível.
+	 * Se a quantidade de litros exceder a capacidade máxima do tanque, o
+	 * abastecimento não é realizado.
+	 *
+	 * @param litros A quantidade de combustível a ser adicionada ao tanque.
+	 * @return A nova capacidade atual do tanque após o abastecimento.
+	 */
+	public double abastecer(double litros) {
+		if (capacidadeAtual + litros <= capacidadeMaxima) {
+			capacidadeAtual += litros; // Atualizando a capacidade atual do tanque
+		}
+
+		totalReabastecido = litros;
+		return totalReabastecido;
 	}
 
 	/**
@@ -101,28 +126,5 @@ public class Tanque {
 			total += abastecimento.getLitros() * abastecimento.getPrecoPorLitro();
 		}
 		return total;
-	}
-
-	/**
-	 * Classe interna que representa um abastecimento do tanque.
-	 * Armazena informações sobre a quantidade de litros abastecidos e o preço por
-	 * litro.
-	 */
-	public class Abastecimento {
-		private double litros;
-		private double precoPorLitro;
-
-		public Abastecimento(double litros, double precoPorLitro) {
-			this.litros = litros;
-			this.precoPorLitro = precoPorLitro;
-		}
-
-		public double getLitros() {
-			return litros;
-		}
-
-		public double getPrecoPorLitro() {
-			return precoPorLitro;
-		}
 	}
 }

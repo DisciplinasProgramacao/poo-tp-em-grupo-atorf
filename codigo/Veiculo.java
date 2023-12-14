@@ -16,10 +16,9 @@ public class Veiculo {
 	private Rota[] rotas;
 	private int quantRotas;
 	private Tanque tanque;
-	private double totalReabastecido;
 	private double quilometragem;
 	private TipoVeiculo tipoVeiculo;
-	private Combustivel tipoCombustivel;
+	
 	private Manutencao manutencao;
 
 	/**
@@ -33,7 +32,6 @@ public class Veiculo {
 		this.tipoVeiculo = tipoVeiculo;
 		this.tanque = tanque;
 		this.rotas = new Rota[MAX_ROTAS];
-		this.tipoCombustivel = tipoCombustivel;
 		this.manutencao = manutencao;
 		this.tanque = tanque;
 		this.quilometragem = quilometragem;
@@ -67,11 +65,7 @@ public class Veiculo {
 	}
 
 	public Combustivel getTipoCombustivel() {
-		return tipoCombustivel;
-	}
-
-	public void setTipoCombustivel(Combustivel tipoCombustivel) {
-		this.tipoCombustivel = tipoCombustivel;
+		return tanque.getTipoCombustivel();
 	}
 
 	public TipoVeiculo getTipoVeiculo() {
@@ -140,16 +134,7 @@ public class Veiculo {
 	 * @return A quantidade do tanque abastecido
 	 */
 	public double abastecer(double litros) {
-		if (litros < tanque.getCapacidadeMaxima() - tanque.getCapacidadeAtual()) {
-			double abastecendoTanque = tanque.abastecer(litros);
-			totalReabastecido += abastecendoTanque;
-			return totalReabastecido;
-		} else {
-			double tanqueCheio = tanque.getCapacidadeMaxima() - tanque.getCapacidadeAtual();
-			double totalAbastecido = tanque.abastecer(tanqueCheio);
-			totalReabastecido += totalAbastecido;
-			return totalReabastecido;
-		}
+		return tanque.abastecer(litros);
 	}
 
 	/**
@@ -229,11 +214,24 @@ public class Veiculo {
 	 */
 
 	public double calcularDespesaTotal() {
-		double precoCombustivel = this.tipoCombustivel.getPrecoLitro();
-		double consumoCombustivel = this.tipoCombustivel.getConsumoMedio();
+		double precoCombustivel = tanque.getTipoCombustivel().getPrecoLitro();
+		double consumoCombustivel = tanque.getTipoCombustivel().getConsumoMedio();
 		double custoCombustivel = (this.quilometragem / consumoCombustivel) * precoCombustivel;
 		double custoManutencao = this.manutencao.calcularCusto(this.quilometragem);
 		return custoCombustivel + custoManutencao;
+	}
+
+	public String relatorioDespesas(){
+		StringBuilder sb = new StringBuilder("Relatorio de despesas do veiculo " + getPlaca());
+		
+		double precoCombustivel = tanque.getTipoCombustivel().getPrecoLitro();
+		double consumoCombustivel = tanque.getTipoCombustivel().getConsumoMedio();
+		double custoCombustivel = (this.quilometragem / consumoCombustivel) * precoCombustivel;
+		double custoManutencao = this.manutencao.calcularCusto(this.quilometragem);
+		
+		sb.append("\nCusto com combustivel: " + custoCombustivel);
+		sb.append("\nCusto com manutenção: " + custoManutencao);
+		return sb.toString();
 	}
 
 	/**
