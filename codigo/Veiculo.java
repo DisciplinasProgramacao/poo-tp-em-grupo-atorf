@@ -30,7 +30,7 @@ public class Veiculo {
 			Tanque tanque, double quilometragem) {
 		this.placa = placa;
 		this.tipoVeiculo = tipoVeiculo;
-		this.tanque = tanque;
+		this.tanque = new Tanque(tipoCombustivel, tipoVeiculo.getTamanhoTanque(), 0);
 		this.rotas = new Rota[MAX_ROTAS];
 		this.manutencao = manutencao;
 		this.tanque = tanque;
@@ -53,6 +53,14 @@ public class Veiculo {
 	 */
 	public double getQuilometragem() {
 		return quilometragem;
+	}
+
+	public Tanque getTanque() {
+		return tanque;
+	}
+
+	public void setTanque(Tanque tanque) {
+		this.tanque = tanque;
 	}
 
 	/**
@@ -133,9 +141,10 @@ public class Veiculo {
 	 * @param litros
 	 * @return A quantidade do tanque abastecido
 	 */
-	public double abastecer(double litros) {
-		return tanque.abastecer(litros);
-	}
+	public String abastecer(double litrosAbastecimento) {
+		Tanque tanqueVeiculo = this.tanque;
+		return tanqueVeiculo.abastecer(litrosAbastecimento).toString();
+	}	
 
 	/**
 	 * Esse método irá retornar a quilometragem percorrida no mês atual.
@@ -279,10 +288,10 @@ public class Veiculo {
 	 */
 	@Override
 	public String toString() {
-		return getTipoVeiculo() + " portador da placa" +
-				"'" + placa + '\'' +
-				", tendo " + getQuilometragem() + " km " +
-				'}';
+		return getTipoVeiculo() + " \nPortador da placa" +
+				": " + placa + '\n' +
+				"Quilometragem: " + getQuilometragem() + "km "
+				+ "\nTanque: "+ tanque.getCapacidadeAtual() + "L";
 	}
 
 }

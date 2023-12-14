@@ -79,6 +79,7 @@ public class App {
                     Combustivel tipoCombustivel = Combustivel.valueOf(dados[7]); // Lendo o tipo de combustível
 
                     Tanque tq = new Tanque(tipoCombustivel, capacidadeTanque, totalReabastecido);
+                    tq.gerarLitrosAleatorios();
                     TipoVeiculo tipoVeiculo = TipoVeiculo.valueOf(tipoVeiculoStr);
                     Manutencao manutencao = null;
 
@@ -303,23 +304,20 @@ public class App {
                 System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km.");
                 break;
 
-            case 8:
+                case 8:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculo = scanner.next();
                 Veiculo veiculoParaAbastecer = frota.localizarVeiculo(placaVeiculo);
                 if (veiculoParaAbastecer != null) {
                     System.out.print("Digite a quantidade de litros a abastecer: ");
                     double litrosAbastecimento = scanner.nextDouble();
-                    if (veiculoParaAbastecer.podeAbastecer(litrosAbastecimento)) {
-                        veiculoParaAbastecer.abastecer(litrosAbastecimento);
-                        System.out.println("Veículo abastecido com sucesso!");
-                    } else {
-                        System.out.println("Quantidade de litros inválida ou excede a capacidade do tanque.");
-                    }
+                    String mensagemAbastecimento = veiculoParaAbastecer.abastecer(litrosAbastecimento);
+                    System.out.println(mensagemAbastecimento);
                 } else {
                     System.out.println("Veículo não encontrado. ＞﹏＜");
                 }
                 break;
+            
 
             case 9:
                 System.out.print("Digite a placa do veículo: ");

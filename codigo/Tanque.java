@@ -49,6 +49,12 @@ public class Tanque {
 		this.tipoCombustivel = tipoCombustivel;
 	}
 
+	public void gerarLitrosAleatorios() {
+		double capacidadeMaxima = this.capacidadeAtual;
+		this.totalReabastecido = Math.random() * capacidadeMaxima; 
+	}
+	
+
 	/**
 	 * Calcula a autonomia máxima do veículo com base na capacidade máxima do tanque
 	 * e no consumo.
@@ -82,6 +88,9 @@ public class Tanque {
 		return capacidadeAtual + litrosAbastecimento <= capacidadeMaxima;
 	}
 
+	public boolean estaCheio(){
+		return totalReabastecido >= capacidadeMaxima;
+	}
 
 	/**
 	 * Abastece o tanque com uma quantidade especificada de litros de combustível.
@@ -91,13 +100,16 @@ public class Tanque {
 	 * @param litros A quantidade de combustível a ser adicionada ao tanque.
 	 * @return A nova capacidade atual do tanque após o abastecimento.
 	 */
-	public double abastecer(double litros) {
-		if (capacidadeAtual + litros <= capacidadeMaxima) {
-			capacidadeAtual += litros; // Atualizando a capacidade atual do tanque
+	
+	public String abastecer(double litrosAbastecimento) {
+		StringBuilder sb = new StringBuilder();
+		if (podeAbastecer(litrosAbastecimento)) {
+			capacidadeAtual += litrosAbastecimento;
+			sb.append("Abastecimento realizado com sucesso!");
+		} else {
+			sb.append("Quantidade de litros excede a capacidade do tanque ou é inválida.");
 		}
-
-		totalReabastecido = litros;
-		return totalReabastecido;
+		return sb.toString();
 	}
 
 	/**
