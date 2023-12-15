@@ -11,7 +11,6 @@ import java.util.*;
 public class Veiculo {
 
 	private static int MAX_ROTAS = 50;
-	private static double CONSUMO;
 	private String placa;
 	private Rota[] rotas;
 	private int quantRotas;
@@ -145,10 +144,7 @@ public class Veiculo {
 			sb.append("Limite de rotas atingido.");
 			return sb.toString(); // Limite de rotas atingido
 		}
-	}
-	
-	
-	
+	}	
 
 	/**
 	 * Método que irá retornar a autonomia máxima.
@@ -268,7 +264,8 @@ public class Veiculo {
 	}
 
 	public String relatorioDespesas() {
-		StringBuilder sb = new StringBuilder("Relatorio de despesas do veiculo " + getPlaca());
+		StringBuilder sb = new StringBuilder("\n==========================");
+		sb.append("Relatorio de despesas do veiculo " + getPlaca());
 
 		double precoCombustivel = tanque.getTipoCombustivel().getPrecoLitro();
 		double consumoCombustivel = tanque.getTipoCombustivel().getConsumoMedio();
@@ -325,7 +322,7 @@ public class Veiculo {
 	 */
 	@Override
 	public String toString() {
-		return getTipoVeiculo() + " \nPortador da placa" +
+		return "==========================" + "\n"+getTipoVeiculo() + " \nPortador da placa" +
 				": " + placa + '\n' +
 				"Quilometragem: " + getQuilometragem() + "km "
 				+ "\nTanque: " + tanque.getCapacidadeAtual() + "L";

@@ -55,8 +55,8 @@ public class MFurgao implements Manutencao {
     }
     
     public String informarManutencao() {
-        StringBuilder info = new StringBuilder();
-        info.append("Última manutenção periódica: ").append(kmUltimaManutencaoPeriodica).append(" km\n");
+        StringBuilder info = new StringBuilder("\n==========================");
+        info.append("\nÚltima manutenção periódica: ").append(kmUltimaManutencaoPeriodica).append(" km\n");
         info.append("Próxima manutenção periódica: ").append(kmUltimaManutencaoPeriodica + KM_MANUTENCAO_PERIODICA).append(" km\n");
         info.append("Última troca de PECAS: ").append(kmUltimaTrocaPecas).append(" km\n");
         info.append("Próxima troca de PECAS: ").append(kmUltimaTrocaPecas + KM_TROCA_PECAS).append(" km\n");

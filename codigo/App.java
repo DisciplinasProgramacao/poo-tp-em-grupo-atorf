@@ -33,6 +33,7 @@ public class App {
      * e processa as opções do menu principal.
      *
      * @param args Argumentos da linha de comando (não utilizados neste método).
+     * 
      */
     public static void main(String[] args) {
         limparTela();
@@ -116,6 +117,7 @@ public class App {
      * data e outros detalhes gerados aleatoriamente.
      *
      * @param frota A frota de veículos para a qual as rotas serão criadas.
+     * 
      */
     public static void criarRotasParaVeiculos(Frota frota) {
         for (Veiculo veiculo : frota.getVeiculos()) {
@@ -143,6 +145,7 @@ public class App {
      *
      * @param nomeArquivo O nome do arquivo contendo as opções do menu.
      * @return A opção escolhida pelo usuário.
+     * 
      */
     public static int menu(String nomeArquivo) {
         lerMenu(nomeArquivo);
@@ -173,10 +176,10 @@ public class App {
                 }
                 break;
 
-                case 3:
+            case 3:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculoRota = scanner.next();
-                
+
                 System.out.print("Escreva a Quilometragem: ");
                 String quilometragemStr = scanner.next();
                 double quilometragem;
@@ -186,8 +189,8 @@ public class App {
                     System.out.println("Quilometragem inválida, digite um número válido!");
                     return 1;
                 }
-                scanner.nextLine(); 
-            
+                scanner.nextLine();
+
                 System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
                 try {
                     String dataInput = scanner.nextLine();
@@ -195,29 +198,32 @@ public class App {
                     int dia = Integer.parseInt(dataSplit[0]);
                     int mes = Integer.parseInt(dataSplit[1]);
                     int ano = Integer.parseInt(dataSplit[2]);
-            
+
                     Data dataRota = new Data(dia, mes, ano);
-            
+
                     Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
                     if (veiculoExistente != null) {
                         Rota rota = new Rota(quilometragem, dataRota);
                         String gasto = veiculoExistente.addRota(rota);
                         if (gasto != null) {
                             System.out.println(veiculoExistente.addRota(rota).toString());
+                            veiculoExistente.getManutencao().registrarManutencaoPeriodica(veiculoExistente.getQuilometragem());
+                            veiculoExistente.getManutencao().registrarTrocaPecas(veiculoExistente.getQuilometragem());
                         } else {
-                            System.out.println("Rota adicionada com sucesso para o veículo com placa " + veiculoExistente.getPlaca());
+                            System.out.println("Rota adicionada com sucesso para o veículo com placa "
+                                    + veiculoExistente.getPlaca());
                         }
                     } else {
                         System.out.println("Veículo não encontrado na frota.");
                     }
-                                
+
                 } catch (NumberFormatException e) {
                     System.out.println("Formato de data inválido. Use o formato DD/MM/AAAA.");
                     return 1;
                 }
-            
+
                 break;
-              case 4:
+            case 4:
                 System.out.print("Placa: ");
                 String placaNova = scanner.next();
                 String arquivoLer = "menuTipoVeiculo";
@@ -258,8 +264,8 @@ public class App {
                         tipoVeiculo = TipoVeiculo.VAN;
                         break;
                     default:
-                       System.out.println("Tipo de veículo inválido.");
-                       return 1;
+                        System.out.println("Tipo de veículo inválido.");
+                        return 1;
 
                 }
 
@@ -278,8 +284,8 @@ public class App {
                         manutencao = new MVan();
                         break;
                     default:
-                          System.out.println("Tipo de veículo inválido.");
-                       return 1;
+                        System.out.println("Tipo de veículo inválido.");
+                        return 1;
                 }
 
                 Veiculo veiculoJaExiste = frota.localizarVeiculo(placaNova);
@@ -365,6 +371,7 @@ public class App {
                 Veiculo veiculoEncontrado2 = frota.localizarVeiculo(placaVeiculoAchar); // Renomeando a variável
                 if (veiculoEncontrado2 != null) {
                     double quilometragemTotal = veiculoEncontrado2.getQuilometragem();
+                    System.out.println("==========================");
                     System.out
                             .println("A quilometragem total percorrida pelo veículo é: " + quilometragemTotal + " km");
                 } else {

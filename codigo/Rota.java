@@ -22,7 +22,7 @@ public class Rota {
             this.quilometragem = quilometragem;
             this.data = data;
         } else {
-            throw new IllegalArgumentException("Rota inválida! Quilometragem superior a 25.000 km.");
+            System.out.println("ERRO: Rota superior ao limite");
         }
     }
     
@@ -53,6 +53,7 @@ public class Rota {
 
     public String relatorio() {
         StringBuilder sb = new StringBuilder();
+        sb.append("==========================");
         sb.append("Data da Rota: ").append(data.dataFormatada());
         sb.append("\nQuilometragem: ").append(quilometragem).append(" km");
 
