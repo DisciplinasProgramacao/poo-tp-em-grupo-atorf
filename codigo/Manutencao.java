@@ -41,9 +41,9 @@ public interface Manutencao {
     void registrarManutencaoPeriodica(double kmAtual);
 
     /**
-     * Registra a realização de troca de pneus no veículo.
+     * Registra a realização de manutenção periódica no veículo.
      *
-     * @param kmAtual A quilometragem atual na qual a troca de pneus é realizada.
+     * @param kmAtual A quilometragem atual na qual a manutenção é realizada.
      */
     void registrarTrocaPecas(double kmAtual);
 

@@ -56,14 +56,29 @@ public class Veiculo {
 		return quilometragem;
 	}
 
+	/**
+	 * Retorna o tanque do veiculo.
+	 * 
+	 * @return O tanque do veiculo.
+	 */
 	public Tanque getTanque() {
 		return tanque;
 	}
 
+	/**
+	 * Define o tamanho do tanque do veiculo.
+	 * 
+	 * @param tanque
+	 */
 	public void setTanque(Tanque tanque) {
 		this.tanque = tanque;
 	}
 
+	/**
+	 * Retorna as rotas que o veiculo possui.
+	 * 
+	 * @return As rotas do veiculo,
+	 */
 	public Rota[] getRotas() {
 		return rotas;
 	}
@@ -77,14 +92,29 @@ public class Veiculo {
 		this.quilometragem = quilometragem;
 	}
 
+	/**
+	 * Retorna o tipo de combustivel do veiculo.
+	 * 
+	 * @return Tipo de combustivel do veiculo.
+	 */
 	public Combustivel getTipoCombustivel() {
 		return tanque.getTipoCombustivel();
 	}
 
+	/**
+	 * Retorna o tipo de veículo da frota.
+	 * 
+	 * @return Retorna o tipo do veiculo.
+	 */
 	public TipoVeiculo getTipoVeiculo() {
 		return tipoVeiculo;
 	}
 
+	/**
+	 * Define o tipo de veiculo.
+	 * 
+	 * @param tipoVeiculo
+	 */
 	public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
 		this.tipoVeiculo = tipoVeiculo;
 	}
@@ -110,45 +140,46 @@ public class Veiculo {
 	 *         necessário, quanto foi gasto para abastecer o veiculo.
 	 */
 
-	 public String addRota(Rota rota) {
+	public String addRota(Rota rota) {
 		StringBuilder sb = new StringBuilder();
-	
+
 		if (quantRotas < MAX_ROTAS) {
 			double quilometragemPercorrida = rota.getQuilometragem();
 			double consumo = tanque.getTipoCombustivel().getConsumoMedio() * quilometragemPercorrida;
-	
+
 			// Verifica se há combustível suficiente para percorrer a rota
 			if (consumo > tanque.getCapacidadeAtual()) {
 				double litrosNecessarios = consumo - tanque.getCapacidadeAtual();
 				double precoLitro = tanque.getTipoCombustivel().getPrecoLitro();
 				double custoAbastecimento = litrosNecessarios * precoLitro;
-	
+
 				tanque.abastecer(litrosNecessarios);
 				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() + litrosNecessarios);
-	
+
 				sb.append("Rota adicionada com sucesso!");
 				sb.append("\nAbastecimento automático realizado para percorrer a rota. \nGasto: R$ ")
 						.append(custoAbastecimento);
 			} else {
 				// Atualiza a quilometragem total do veículo com a quilometragem da rota
 				this.quilometragem += quilometragemPercorrida;
-	
+
 				// Atualiza a capacidade do tanque após percorrer a rota
 				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() - consumo);
-	
+
 				sb.append("Rota adicionada com sucesso!");
 			}
-	
+
 			rotas[quantRotas] = rota;
 			quantRotas++;
-	
+
 			return sb.toString(); // Rota adicionada com sucesso
 		} else {
 			sb.append("Limite de rotas atingido.");
 			return sb.toString(); // Limite de rotas atingido
 		}
 	}
-		/**
+
+	/**
 	 * Método que irá retornar a autonomia máxima.
 	 * 
 	 * @return A autonomia máxima.
@@ -221,18 +252,16 @@ public class Veiculo {
 	 * @return Quilometragem médida do veículo.
 	 */
 
-	 public double kmMedia() {
+	public double kmMedia() {
 		double kmTotal = this.kmTotal();
 		int totalRotas = this.quantRotas;
-	
+
 		if (totalRotas == 0) {
 			return 0; // Evita divisão por zero
 		}
-	
+
 		return kmTotal / totalRotas;
 	}
-	
-	
 
 	/**
 	 * Irá passar como parâmetro uma rota e essa será percorrida caso o limite não
@@ -265,6 +294,12 @@ public class Veiculo {
 		return custoCombustivel + custoManutencao;
 	}
 
+	/**
+	 * Metodo para retonar o relatorio com todas as depesas do veiculo, sejam os
+	 * gastos com combustivel e os custos com manutenção.
+	 * 
+	 * @return Retorna as despesas do veículo.
+	 */
 	public String relatorioDespesas() {
 		StringBuilder sb = new StringBuilder("\n==========================");
 		sb.append("\nRelatorio de despesas do veiculo " + getPlaca());
@@ -324,12 +359,10 @@ public class Veiculo {
 	 */
 	@Override
 	public String toString() {
-		return "==========================" + "\n"+getTipoVeiculo() + " \nPortador da placa" +
+		return "==========================" + "\n" + getTipoVeiculo() + " \nPortador da placa" +
 				": " + placa + '\n' +
 				"Quilometragem: " + getQuilometragem() + "km "
 				+ "\nTanque: " + tanque.getCapacidadeAtual() + "L";
 	}
 
 }
-
-

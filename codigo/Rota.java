@@ -26,6 +26,10 @@ public class Rota {
         }
     }
 
+    /**
+     * Define a quilometragem percorrida na rota.
+     * @param quilometragem
+     */
     public void setQuilometragem(double quilometragem) {
         this.quilometragem = quilometragem;
     }

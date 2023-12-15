@@ -29,30 +29,57 @@ public class Tanque {
 		this.capacidadeAtual = capacidadeAtual;
 	}
 
+	/**
+	 * Metodo para retornar o consumo do tanque.
+	 * @return Consumo do tanque.
+	 */
 	public static double getCONSUMO() {
 		return CONSUMO;
 	}
 
+	/**
+	 * Retorna a capacidade máxima do tanque.
+	 * @return Capacidade máxima do tanque.
+	 */
 	public double getCapacidadeMaxima() {
 		return capacidadeMaxima;
 	}
 
+	/**
+	 * Metodo retorna qual é a capacidade atual que está no tanque.
+	 * @return Capacidade do tanque.
+	 */
 	public double getCapacidadeAtual() {
 		return capacidadeAtual;
 	}
 
+	/**
+	 * Retorna o tipo de combustivel do tanque.
+	 * @return Tipo de combustivel usado no tanque.
+	 */
 	public Combustivel getTipoCombustivel() {
 		return tipoCombustivel;
 	}
 
+	/**
+	 * Metodo para definir a capacidade atual do tanque
+	 * @param capacidadeAtual
+	 */
 	public void setCapacidadeAtual(double capacidadeAtual) {
 		this.capacidadeAtual = capacidadeAtual;
 	}
 
+	/**
+	 * Metodo para definir o tipo de combustivel que esse tanque recebe.
+	 * @param tipoCombustivel
+	 */
 	public void setTipoCombustivel(Combustivel tipoCombustivel) {
 		this.tipoCombustivel = tipoCombustivel;
 	}
 
+	/**
+	 * Esse metódo gerar litros aleatorios para a nossa base de valores TXT.
+	 */
 	public void gerarLitrosAleatorios() {
 		double capacidadeMaxima = this.capacidadeAtual;
 		this.totalReabastecido = Math.random() * capacidadeMaxima; 
@@ -92,6 +119,10 @@ public class Tanque {
 		return capacidadeAtual + litrosAbastecimento <= capacidadeMaxima;
 	}
 
+	/**
+	 * Verifica se o tanque está com sua capacidade máxima.
+	 * @return Se o tanque está cheio ou não.
+	 */
 	public boolean estaCheio(){
 		return totalReabastecido >= capacidadeMaxima;
 	}
