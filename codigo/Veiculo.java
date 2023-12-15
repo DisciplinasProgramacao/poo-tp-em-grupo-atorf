@@ -114,8 +114,6 @@ public class Veiculo {
 		StringBuilder sb = new StringBuilder();
 	
 		if (quantRotas < MAX_ROTAS) {
-			rotas[quantRotas] = rota;
-			quantRotas++;
 			double quilometragemPercorrida = rota.getQuilometragem();
 			double consumo = tanque.getTipoCombustivel().getConsumoMedio() * quilometragemPercorrida;
 	
@@ -127,26 +125,30 @@ public class Veiculo {
 	
 				tanque.abastecer(litrosNecessarios);
 				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() + litrosNecessarios);
-
+	
 				sb.append("Rota adicionada com sucesso!");
 				sb.append("\nAbastecimento automático realizado para percorrer a rota. \nGasto: R$ ")
 						.append(custoAbastecimento);
+			} else {
+				// Atualiza a quilometragem total do veículo com a quilometragem da rota
+				this.quilometragem += quilometragemPercorrida;
+	
+				// Atualiza a capacidade do tanque após percorrer a rota
+				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() - consumo);
+	
+				sb.append("Rota adicionada com sucesso!");
 			}
 	
-			// Atualiza a quilometragem total do veículo com a quilometragem da rota
-			this.quilometragem += quilometragemPercorrida;
-	
-			// Atualiza a capacidade do tanque após percorrer a rota
-			tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() - consumo);
+			rotas[quantRotas] = rota;
+			quantRotas++;
 	
 			return sb.toString(); // Rota adicionada com sucesso
 		} else {
 			sb.append("Limite de rotas atingido.");
 			return sb.toString(); // Limite de rotas atingido
 		}
-	}	
-
-	/**
+	}
+		/**
 	 * Método que irá retornar a autonomia máxima.
 	 * 
 	 * @return A autonomia máxima.
@@ -265,7 +267,7 @@ public class Veiculo {
 
 	public String relatorioDespesas() {
 		StringBuilder sb = new StringBuilder("\n==========================");
-		sb.append("Relatorio de despesas do veiculo " + getPlaca());
+		sb.append("\nRelatorio de despesas do veiculo " + getPlaca());
 
 		double precoCombustivel = tanque.getTipoCombustivel().getPrecoLitro();
 		double consumoCombustivel = tanque.getTipoCombustivel().getConsumoMedio();

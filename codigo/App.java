@@ -358,7 +358,6 @@ public class App {
                 Veiculo veiculo2 = frota.localizarVeiculo(placa3);
                 if (veiculo2 != null) {
                     double despesaTotal = veiculo2.calcularDespesaTotal();
-                    System.out.println("Despesa total do veículo: " + despesaTotal);
                     System.out.println(veiculo2.relatorioDespesas());
                 } else {
                     System.out.println("Veículo não encontrado.");

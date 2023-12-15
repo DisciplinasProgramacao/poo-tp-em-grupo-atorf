@@ -25,7 +25,10 @@ public class Rota {
             System.out.println("ERRO: Rota superior ao limite");
         }
     }
-    
+
+    public void setQuilometragem(double quilometragem) {
+        this.quilometragem = quilometragem;
+    }
 
     /**
      * Retorna a quilometragem percorrida na rota.
