@@ -173,51 +173,51 @@ public class App {
                 }
                 break;
 
-            case 3:
+                case 3:
                 System.out.print("Digite a placa do veículo: ");
                 String placaVeiculoRota = scanner.next();
+                
                 System.out.print("Escreva a Quilometragem: ");
+                String quilometragemStr = scanner.next();
+                double quilometragem;
                 try {
-                    double quilometragem = scanner.nextDouble();
-                    scanner.nextLine(); 
-
-                    System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
-                    try {
-                        String dataInput = scanner.next();
-                        String[] dataSplit = dataInput.split("/");
-                        int dia = Integer.parseInt(dataSplit[0]);
-                        int mes = Integer.parseInt(dataSplit[1]);
-                        int ano = Integer.parseInt(dataSplit[2]);
-
-                        Data dataRota = new Data(dia, mes, ano);
-
-                        Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
-                        if (veiculoExistente != null) {
-                            Rota rota = new Rota(quilometragem, dataRota);
-                            if (veiculoExistente.addRota(rota) == null) {
-                                System.out.println(
-                                        veiculoExistente.addRota(rota));
-                            } else {
-                                System.out.println(veiculoExistente.addRota(rota));
-                            }
-                        } else {
-                            System.out.println("Veículo não encontrado na frota.");
-                        }
-                    } catch (NumberFormatException e) {
-                        scanner.nextLine();
-                        System.out.println("Formato de data inválido. Use o formato DD/MM/AAAA.");
-                        return 1;
-                    }
-
-                } catch (java.util.InputMismatchException e) {
-                    scanner.nextLine();
+                    quilometragem = Double.parseDouble(quilometragemStr);
+                } catch (NumberFormatException e) {
                     System.out.println("Quilometragem inválida, digite um número válido!");
                     return 1;
                 }
-
+                scanner.nextLine(); 
+            
+                System.out.print("Escreva a Data (no formato DD/MM/AAAA): ");
+                try {
+                    String dataInput = scanner.nextLine();
+                    String[] dataSplit = dataInput.split("/");
+                    int dia = Integer.parseInt(dataSplit[0]);
+                    int mes = Integer.parseInt(dataSplit[1]);
+                    int ano = Integer.parseInt(dataSplit[2]);
+            
+                    Data dataRota = new Data(dia, mes, ano);
+            
+                    Veiculo veiculoExistente = frota.localizarVeiculo(placaVeiculoRota);
+                    if (veiculoExistente != null) {
+                        Rota rota = new Rota(quilometragem, dataRota);
+                        String gasto = veiculoExistente.addRota(rota);
+                        if (gasto != null) {
+                            System.out.println(veiculoExistente.addRota(rota).toString());
+                        } else {
+                            System.out.println("Rota adicionada com sucesso para o veículo com placa " + veiculoExistente.getPlaca());
+                        }
+                    } else {
+                        System.out.println("Veículo não encontrado na frota.");
+                    }
+                                
+                } catch (NumberFormatException e) {
+                    System.out.println("Formato de data inválido. Use o formato DD/MM/AAAA.");
+                    return 1;
+                }
+            
                 break;
-
-            case 4:
+              case 4:
                 System.out.print("Placa: ");
                 String placaNova = scanner.next();
                 String arquivoLer = "menuTipoVeiculo";

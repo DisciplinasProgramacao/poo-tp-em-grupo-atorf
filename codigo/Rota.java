@@ -18,16 +18,14 @@ public class Rota {
      * @param data          A data em que a rota foi realizada.
      */
     public Rota(double quilometragem, Data data) {
-        StringBuilder sb = new StringBuilder();
-        if (quilometragem<25000){
+        if (quilometragem < 25000) {
             this.quilometragem = quilometragem;
             this.data = data;
-            sb.append("Rota adicionada com sucesso!");
-
         } else {
-            sb.append("Rota inválida!");
+            throw new IllegalArgumentException("Rota inválida! Quilometragem superior a 25.000 km.");
         }
     }
+    
 
     /**
      * Retorna a quilometragem percorrida na rota.

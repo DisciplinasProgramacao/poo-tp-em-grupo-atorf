@@ -111,39 +111,44 @@ public class Veiculo {
 	 *         necessário, quanto foi gasto para abastecer o veiculo.
 	 */
 
-	public String addRota(Rota rota) {
+	 public String addRota(Rota rota) {
+		StringBuilder sb = new StringBuilder();
+	
 		if (quantRotas < MAX_ROTAS) {
 			rotas[quantRotas] = rota;
 			quantRotas++;
 			double quilometragemPercorrida = rota.getQuilometragem();
 			double consumo = tanque.getTipoCombustivel().getConsumoMedio() * quilometragemPercorrida;
-
-			StringBuilder sb = new StringBuilder();
-
+	
 			// Verifica se há combustível suficiente para percorrer a rota
 			if (consumo > tanque.getCapacidadeAtual()) {
-				double litrosNecessarios = consumo - tanque.getCapacidadeAtual(); // Calcula a quantidade de combustivel
-																					// necessaria para completar a rota
+				double litrosNecessarios = consumo - tanque.getCapacidadeAtual();
 				double precoLitro = tanque.getTipoCombustivel().getPrecoLitro();
 				double custoAbastecimento = litrosNecessarios * precoLitro;
+	
+				tanque.abastecer(litrosNecessarios);
+				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() + litrosNecessarios);
 
-				tanque.abastecer(litrosNecessarios); // Abastecendo o veiculo automaticamente
-
-				tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() + litrosNecessarios); // Atualizando a capacidade
-																							// do tanque
-
-				sb.append("Abastecimento automático realizado para percorrer a rota. Gasto: R$ ")
-						.append(custoAbastecimento); // Aviso de abastecimento automático e gasto
+				sb.append("Rota adicionada com sucesso!");
+				sb.append("\nAbastecimento automático realizado para percorrer a rota. \nGasto: R$ ")
+						.append(custoAbastecimento);
 			}
-
+	
+			// Atualiza a quilometragem total do veículo com a quilometragem da rota
+			this.quilometragem += quilometragemPercorrida;
+	
 			// Atualiza a capacidade do tanque após percorrer a rota
 			tanque.setCapacidadeAtual(tanque.getCapacidadeAtual() - consumo);
-
-			return sb.toString();
+	
+			return sb.toString(); // Rota adicionada com sucesso
 		} else {
-			return "Limite de rotas atingido.";
+			sb.append("Limite de rotas atingido.");
+			return sb.toString(); // Limite de rotas atingido
 		}
 	}
+	
+	
+	
 
 	/**
 	 * Método que irá retornar a autonomia máxima.
