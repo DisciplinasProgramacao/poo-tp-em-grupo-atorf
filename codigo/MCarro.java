@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class MCarro implements Manutencao {
     private static final double KM_MANUTENCAO_PERIODICA = 10000;
-    private static final double KM_TROCA_PECAS = 10000;
+    private static final double KM_TROCA_PECAS = 400;
     private static final double VALOR_PERIODICA = 200.0;
     private static final double VALOR_TROCA_PECAS = 400.0;
     private double kmUltimaManutencaoPeriodica = 0;
